@@ -3,11 +3,13 @@ package com.junyoung.searchwheretogoapi.model.api;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class PlaceData {
+@NoArgsConstructor
+public class PlaceData{
     private String name;
     private String address;
     private String phone;
