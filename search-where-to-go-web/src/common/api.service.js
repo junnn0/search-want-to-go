@@ -60,8 +60,8 @@ const ApiService = {
       ] = `Token ${TokenService.getToken()}`
   },
 
-  get(resource, params) {
-    return Vue.axios.get(resource, params).catch(error => {
+  get(resource) {
+    return Vue.axios.get(resource).catch(error => {
       throw new Error(`ApiService ${error}`);
     });
   },
