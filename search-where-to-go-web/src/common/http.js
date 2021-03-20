@@ -37,10 +37,7 @@ axios.interceptors.request.use(function (request) {
 })
 
 axios.interceptors.response.use(function (response) {
-    if (Object.prototype.hasOwnProperty.call(response.config, 'responseHandle') && response.config.responseHandle === false) {
-        return response
-    }
-    if (!response.data.header.isSuccessful) {
+    if (response.data.header && !response.data.header.isSuccessful) {
         if (response.data.header.resultCode === -1000) {
             resolveLogin()
             return

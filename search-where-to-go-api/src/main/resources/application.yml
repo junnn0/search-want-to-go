@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: local
+  jwt:
+    secretKey: secretkey
+#    secret: nRvyYC4soFxBdZ-F-5Nnzz5USXstR1YylsTd-mA0aKtI9HUlriGrtkf-TiuDapkLiUCogO3JOK7kwZisrHp6wA
+    sessionTime: 86400
+  datasource:
+    url: jdbc:h2:mem:search-where-to-go
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+allowed:
+  origin: http://localhost:8081
+

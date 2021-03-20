@@ -2,25 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import {http} from './common/http'
-import {loadMessages, getUserLanguage} from './common/i18n'
-import StoreConstant from './store/constant'
+import ApiService from "@/common/api.service"
+import {loadMessages} from './common/i18n'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$http = http
-Vue.prototype.$lang = getUserLanguage()
 Vue.prototype.$messages = loadMessages()
-Vue.prototype.$alert = showAlertModal
 
-function showAlertModal(title, message) {
-  this.$log.debug('showAlertModal()', title, message)
-  this.$store.dispatch(StoreConstant.SHOW_ALERT_MODAL, {
-    isShowAlertModal: true,
-    alertModalTitle: title,
-    alertModalMessage: message
-  })
-}
+ApiService.init()
 
 new Vue({
   router,
