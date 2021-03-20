@@ -1,18 +1,33 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Home.vue</h1>
+    <login/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import ApiService from "@/common/api.service"
+import TokenService from '@/common/token.service'
+import Login from '@/components/Login'
+import StoreConstant from '@/store/constant'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    Login
+  },
+  created() {
+    let token = TokenService.getToken();
+    if (token) {
+      ApiService.setHeader()
+      ApiService.get('/user')
+          .then(({data}) => {
+            if (data.header.isSuccessful) {
+              this.$store.dispatch(StoreConstant.SET_USER, data.body)
+              this.$router.push({name: 'Main'})
+            }
+          })
+    }
   }
 }
 </script>

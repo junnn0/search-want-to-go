@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">{{ $messages['common.home'] }}</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/join">{{ $messages['common.join'] }}</router-link>
     </div>
     <router-view/>
   </div>
