@@ -28,9 +28,6 @@ export default new Vuex.Store({
     },
     [StoreConstant.LOGOUT](store) {
       store.commit(StoreConstant.LOGOUT)
-    },
-    [StoreConstant.CHECK_AUTH](store) {
-
     }
   },
   getters: {

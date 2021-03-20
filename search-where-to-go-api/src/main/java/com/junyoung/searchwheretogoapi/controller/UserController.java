@@ -41,7 +41,7 @@ public class UserController {
   @PostMapping("/users/login")
   public ResponseEntity<ApiResponse<UserWithToken>> loginUser(@Valid @RequestBody UserParam userParam) {
     User user = userService.findByUsername(userParam.getUsername());
-    if (user != null && user.getPassword().equals(userParam.getPassword())) {
+    if (user != null && userService.isCorrectPassword(userParam.getPassword(), user)) {
       return ResponseEntity.ok(ApiResponse.success(new UserWithToken(user, jwtService.toToken(user))));
     } else {
       throw new UserAuthenticationException(String.format("user '%s' is not exists.", userParam.getUsername()));
