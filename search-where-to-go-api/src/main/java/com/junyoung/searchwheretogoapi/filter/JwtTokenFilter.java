@@ -20,41 +20,41 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-  private final UserRepository userRepository;
-  private final JwtService jwtService;
+    private final UserRepository userRepository;
+    private final JwtService jwtService;
 
-  @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-    getTokenString(request.getHeader(HttpHeaders.AUTHORIZATION))
-        .flatMap(jwtService::getSubFromToken)
-        .ifPresent(id -> {
-          if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            userRepository.findById(id).ifPresent(user -> {
-              UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                  user,
-                  null,
-                  Collections.emptyList()
-              );
-              authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-              SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            });
-          }
-        });
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        getTokenString(request.getHeader(HttpHeaders.AUTHORIZATION))
+                .flatMap(jwtService::getSubFromToken)
+                .ifPresent(id -> {
+                    if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                        userRepository.findById(id).ifPresent(user -> {
+                            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                                    user,
+                                    null,
+                                    Collections.emptyList()
+                            );
+                            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                        });
+                    }
+                });
 
-    filterChain.doFilter(request, response);
-  }
-
-  private Optional<String> getTokenString(String header) {
-    if (header == null) {
-      return Optional.empty();
-    } else {
-      String[] split = header.split(" ");
-      if (split.length < 2) {
-        return Optional.empty();
-      } else {
-        return Optional.ofNullable(split[1]);
-      }
+        filterChain.doFilter(request, response);
     }
-  }
+
+    private Optional<String> getTokenString(String header) {
+        if (header == null) {
+            return Optional.empty();
+        } else {
+            String[] split = header.split(" ");
+            if (split.length < 2) {
+                return Optional.empty();
+            } else {
+                return Optional.ofNullable(split[1]);
+            }
+        }
+    }
 }
 

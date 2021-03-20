@@ -1,13 +1,11 @@
 package com.junyoung.searchwheretogoapi.exception;
 
 import com.junyoung.searchwheretogoapi.model.common.ResponseType;
-import lombok.Getter;
 
-@Getter
-public class UserAuthenticationException extends RuntimeException {
+public class ExternalApiException extends RuntimeException {
     private final ResponseType responseType;
 
-    public UserAuthenticationException(ResponseType responseType) {
+    public ExternalApiException(ResponseType responseType) {
         super(responseType.getMessage());
         this.responseType = responseType;
     }

@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiResponse<T> {
-  private ApiResponseHeader header;
-  private T body;
+    private ApiResponseHeader header;
+    private T body;
 
-  public static <T> ApiResponse<T> success(T body) {
-    ApiResponseHeader header = new ApiResponseHeader(true, 0, "SUCCESS");
-    return new ApiResponse<>(header, body);
-  }
+    public static <T> ApiResponse<T> success(T body) {
+        ApiResponseHeader header = new ApiResponseHeader(true, 0, "SUCCESS");
+        return new ApiResponse<>(header, body);
+    }
 
-  public static <T> ApiResponse<T> fail(ResponseType responseType) {
-    ApiResponseHeader header = new ApiResponseHeader(false, responseType.getCode(), responseType.getMessage());
-    return new ApiResponse<>(header, null);
-  }
+    public static <T> ApiResponse<T> fail(ResponseType responseType) {
+        ApiResponseHeader header = new ApiResponseHeader(false, responseType.getCode(), responseType.getMessage());
+        return new ApiResponse<>(header, null);
+    }
 }
