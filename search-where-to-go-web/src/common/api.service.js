@@ -2,19 +2,17 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios"
 import TokenService from '@/common/token.service'
-import store from '../store'
-import StoreConstant from '@/store/constant'
 import {loadMessages} from '@/common/i18n'
 
 const messages = loadMessages()
+const runtimeConfig = fetchConfig()
 
 const ApiService = {
-  async init() {
+  init() {
     Vue.use(VueAxios, axios);
     this.setRequestInterceptor()
     this.setResponseInterceptor()
     axios.defaults.withCredentials = true
-    const runtimeConfig = await fetchConfig()
     if (runtimeConfig.apiBaseUrl) {
       Vue.axios.defaults.baseURL = runtimeConfig.apiBaseUrl
     } else {
@@ -34,7 +32,6 @@ const ApiService = {
 
   setResponseInterceptor() {
     axios.interceptors.response.use(function (response) {
-      console.log(response)
       if (response.data.header && !response.data.header.isSuccessful) {
         if (response.data.header.resultCode === 1000) {
           resolveLogin()
@@ -45,7 +42,7 @@ const ApiService = {
         return new Promise(() => {
         })
       } else {
-        return response
+        return response.data
       }
     }, function (error) {
       if (Object.prototype.hasOwnProperty.call(error.config, 'errorHandle') && error.config.errorHandle === false) {
@@ -60,7 +57,7 @@ const ApiService = {
   setHeader() {
     Vue.axios.defaults.headers.common[
       "Authorization"
-      ] = `Token ${TokenService.getToken()}`;
+      ] = `Token ${TokenService.getToken()}`
   },
 
   get(resource, params) {
@@ -98,11 +95,7 @@ function resolveLogin() {
 }
 
 function showErrorMessage(message) {
-  store.dispatch(StoreConstant.SHOW_ALERT_MODAL, {
-    isShowAlertModal: true,
-    alertModalTitle: 'Error',
-    alertModalMessage: message
-  })
+  alert(message)
 }
 
 function getErrorMessage(code) {

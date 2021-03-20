@@ -34,9 +34,8 @@ export default {
         password: this.password
       }
       ApiService.post('/users/login', user)
-          .then(({data}) => {
-            console.log(data)
-            this.$store.dispatch(StoreConstant.SET_USER, data.body)
+          .then(({body}) => {
+            this.$store.dispatch(StoreConstant.SET_USER, body)
             this.$router.push({name: 'Main'})
           })
     }
