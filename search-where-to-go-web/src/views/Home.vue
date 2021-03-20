@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ApiService from "@/common/api.service"
 import TokenService from '@/common/token.service'
 import Login from '@/components/Login'
@@ -16,14 +17,20 @@ export default {
   components: {
     Login
   },
+  computed: {
+    ...mapGetters(["getUser"]),
+  },
   created() {
     let token = TokenService.getToken();
+    console.log('home:', token)
     if (token) {
+      console.log('user:', this.getUser.username)
       ApiService.setHeader()
       ApiService.get('/user')
-          .then(({data}) => {
-            if (data.header.isSuccessful) {
-              this.$store.dispatch(StoreConstant.SET_USER, data.body)
+          .then(({header, body}) => {
+            console.log('Home', header, body)
+            if (header.isSuccessful) {
+              this.$store.dispatch(StoreConstant.SET_USER, body)
               this.$router.push({name: 'Main'})
             }
           })
