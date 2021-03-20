@@ -10,9 +10,14 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class KakaoSearchResponse<T> implements Searchable {
+public class KakaoSearchResponse<T> implements Searchable<T> {
     private List<T> documents;
     private Metadata meta;
+
+    @Override
+    public List<T> get() {
+        return documents;
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     @Getter

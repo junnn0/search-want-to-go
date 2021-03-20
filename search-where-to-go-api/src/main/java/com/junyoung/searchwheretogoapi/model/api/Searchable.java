@@ -1,4 +1,7 @@
 package com.junyoung.searchwheretogoapi.model.api;
 
-public interface Searchable {
+import java.util.List;
+
+public interface Searchable<T> {
+    List<T> get();
 }

@@ -1,7 +1,14 @@
 package com.junyoung.searchwheretogoapi.client;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import com.junyoung.searchwheretogoapi.exception.ExternalApiException;
 import com.junyoung.searchwheretogoapi.model.api.KakaoPlace;
 import com.junyoung.searchwheretogoapi.model.api.KakaoSearchResponse;
+import com.junyoung.searchwheretogoapi.model.api.Place;
+import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.properties.KakaoApiProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +16,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,19 +30,31 @@ public class KakaoPlaceApiClient implements PlaceApiClient {
     private final KakaoApiProperties properties;
     private final RestTemplate restTemplate;
 
+    @Async
     @Override
-    public KakaoSearchResponse<KakaoPlace> getPlaces(String query) {
-        log.info("> getPlaces(query={})", query);
+    public CompletableFuture<List<? extends Place>> getPlaces(String query) {
+        log.debug("> getPlaces(query={})", query);
+
         String uri = properties.getBaseUrl()
                 + UriComponentsBuilder.fromUriString(properties.getApi().get("getPlaces"))
                 .buildAndExpand(query);
 
-        return restTemplate.exchange(
-                uri,
-                HttpMethod.GET,
-                new HttpEntity<>(makeAuthHeaders()),
-                new ParameterizedTypeReference<KakaoSearchResponse<KakaoPlace>>() {})
-                .getBody();
+        try {
+            KakaoSearchResponse<KakaoPlace> response =
+                    restTemplate.exchange(
+                            uri,
+                            HttpMethod.GET,
+                            new HttpEntity<>(makeAuthHeaders()),
+                            new ParameterizedTypeReference<KakaoSearchResponse<KakaoPlace>>() {})
+                            .getBody();
+            if (response != null) {
+                return CompletableFuture.completedFuture(response.get());
+            } else {
+                return CompletableFuture.completedFuture(Collections.emptyList());
+            }
+        } catch (Exception ex) {
+            throw new ExternalApiException(ResponseType.EXTERNAL_API_ERROR);
+        }
     }
 
     private HttpHeaders makeAuthHeaders() {
