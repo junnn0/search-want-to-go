@@ -2,15 +2,18 @@
   <div class="home">
     <h1>Main.vue</h1>
     <button @click="logout">logout</button>
+    <search />
   </div>
 </template>
 
 <script>
 import TokenService from '@/common/token.service'
+import Search from '@/components/Search'
 
 export default {
   name: 'Home',
   components: {
+    Search
   },
   created() {
     let token = TokenService.getToken();
