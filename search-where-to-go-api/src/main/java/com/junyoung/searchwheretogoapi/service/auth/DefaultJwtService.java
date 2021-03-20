@@ -20,8 +20,8 @@ public class DefaultJwtService implements JwtService {
     private final int sessionTime;
 
     @Autowired
-    public DefaultJwtService(@Value("${spring.jwt.secretKey}") String secretKey,
-                             @Value("${spring.jwt.sessionTime}") int sessionTime) {
+    public DefaultJwtService(@Value("${spring.jwt.secret-key}") String secretKey,
+                             @Value("${spring.jwt.session-time}") int sessionTime) {
         this.secret = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
         this.sessionTime = sessionTime;
     }
@@ -29,10 +29,10 @@ public class DefaultJwtService implements JwtService {
     @Override
     public String toToken(User user) {
         return Jwts.builder()
-            .setSubject(user.getId())
-            .setExpiration(expireTimeFromNow())
-            .signWith(SignatureAlgorithm.HS512, secret)
-            .compact();
+                .setSubject(user.getId())
+                .setExpiration(expireTimeFromNow())
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
     }
 
     @Override
