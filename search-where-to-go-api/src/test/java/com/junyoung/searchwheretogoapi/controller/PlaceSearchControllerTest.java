@@ -9,6 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.junyoung.searchwheretogoapi.service.place.PlaceSearchHistoryService;
@@ -57,6 +58,7 @@ class PlaceSearchControllerTest {
                                         .header(
                                                 HttpHeaders.AUTHORIZATION,
                                                 TestDataUtil.createToken()))
+                        .andExpect(request().asyncStarted())
                         .andReturn();
 
         mockMvc.perform(asyncDispatch(mvcResult))
