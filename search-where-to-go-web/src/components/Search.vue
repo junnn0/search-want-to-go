@@ -32,6 +32,7 @@ export default {
   methods: {
     search() {
       if (this.searchWord) {
+        ApiService.setHeader()
         ApiService.get(`/v1.0/places?query=${this.searchWord}`)
             .then(({body}) => this.places = body)
       }
