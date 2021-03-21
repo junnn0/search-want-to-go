@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,17 +20,20 @@ import lombok.Setter;
 public class PlaceSearchHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int historyId;
+
     @Column(length = 300, nullable = false)
     private String query;
+
     @Column(length = 50, nullable = false)
-    private String username;
+    private String userId;
+
     @Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createDatetime;
 
-    public PlaceSearchHistory(String query, String username) {
+    public PlaceSearchHistory(String query, String userId) {
         this.query = query;
-        this.username = username;
+        this.userId = userId;
         this.createDatetime = LocalDateTime.now();
     }
 }

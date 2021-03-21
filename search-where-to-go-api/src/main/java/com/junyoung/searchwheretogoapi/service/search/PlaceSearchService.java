@@ -30,7 +30,7 @@ public class PlaceSearchService {
     public CompletableFuture<List<PlaceData>> getPlaces(User user, String query) {
         log.debug("> getPlaces(query={})", query);
 
-        placeSearchHistoryRepository.save(new PlaceSearchHistory(query, user.getUsername()));
+        placeSearchHistoryRepository.save(new PlaceSearchHistory(query, user.getUserId()));
         return placeApiClients.stream()
                 .map(client -> client.getPlaces(query))
                 .reduce(
