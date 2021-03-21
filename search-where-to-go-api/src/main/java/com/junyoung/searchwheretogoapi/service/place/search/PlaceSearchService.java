@@ -1,11 +1,8 @@
-package com.junyoung.searchwheretogoapi.service.search;
+package com.junyoung.searchwheretogoapi.service.place.search;
 
 import com.junyoung.searchwheretogoapi.client.PlaceApiClient;
 import com.junyoung.searchwheretogoapi.model.api.Place;
 import com.junyoung.searchwheretogoapi.model.api.PlaceData;
-import com.junyoung.searchwheretogoapi.model.data.PlaceSearchHistory;
-import com.junyoung.searchwheretogoapi.model.data.User;
-import com.junyoung.searchwheretogoapi.repository.PlaceSearchHistoryRepository;
 import com.junyoung.searchwheretogoapi.util.NamingUtil;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,14 +21,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class PlaceSearchService {
-    private final PlaceSearchHistoryRepository placeSearchHistoryRepository;
     private final List<PlaceApiClient> placeApiClients;
 
-    public CompletableFuture<List<PlaceData>> getPlaces(User user, String query) {
+    public CompletableFuture<List<PlaceData>> getPlaces(String query) {
         log.debug("> getPlaces(query={})", query);
         String trimmedQuery = query.trim();
 
-        placeSearchHistoryRepository.save(new PlaceSearchHistory(trimmedQuery, user.getUserId()));
         return placeApiClients.stream()
                 .map(client -> client.getPlaces(trimmedQuery))
                 .reduce(

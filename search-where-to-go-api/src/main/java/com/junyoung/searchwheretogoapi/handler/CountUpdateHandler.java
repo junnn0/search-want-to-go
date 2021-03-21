@@ -2,7 +2,7 @@ package com.junyoung.searchwheretogoapi.handler;
 
 import com.junyoung.searchwheretogoapi.model.data.SearchCount;
 import com.junyoung.searchwheretogoapi.repository.PlaceSearchCountRepository;
-import com.junyoung.searchwheretogoapi.service.search.SearchCountService;
+import com.junyoung.searchwheretogoapi.service.place.SearchCountService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
