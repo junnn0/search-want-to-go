@@ -1,10 +1,12 @@
 package com.junyoung.searchwheretogoapi.controller;
 
+import com.junyoung.searchwheretogoapi.exception.UserAuthenticationException;
 import com.junyoung.searchwheretogoapi.model.api.PageParam;
 import com.junyoung.searchwheretogoapi.model.common.ApiResponse;
+import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.model.data.PlaceSearchHistory;
 import com.junyoung.searchwheretogoapi.model.data.User;
-import com.junyoung.searchwheretogoapi.service.search.PlaceSearchHistoryService;
+import com.junyoung.searchwheretogoapi.service.place.search.PlaceSearchHistoryQueryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1.0")
 public class PlaceSearchHistoryController {
-    private final PlaceSearchHistoryService placeSearchHistoryService;
+    private final PlaceSearchHistoryQueryService placeSearchHistoryQueryService;
 
     @GetMapping("/places/histories")
     public ApiResponse<List<PlaceSearchHistory>> getPlaceSearchHistories(
             @AuthenticationPrincipal User user, PageParam pageParam) {
         log.debug("> getPlaceSearchHistories(user={}, pageParam={})", user, pageParam);
-
+        if (user == null) {
+            throw new UserAuthenticationException(ResponseType.NOT_LOGIN_USER);
+        }
         return ApiResponse.success(
-                placeSearchHistoryService.getPlaceSearchHistories(user, pageParam));
+                placeSearchHistoryQueryService.getPlaceSearchHistories(user, pageParam));
     }
 }

@@ -1,4 +1,4 @@
-package com.junyoung.searchwheretogoapi.service.search;
+package com.junyoung.searchwheretogoapi.service.place.search;
 
 import com.junyoung.searchwheretogoapi.model.data.SearchCount;
 import com.junyoung.searchwheretogoapi.repository.PlaceSearchCountRepository;

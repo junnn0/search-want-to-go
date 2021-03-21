@@ -27,12 +27,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         getTokenString(request.getHeader(HttpHeaders.AUTHORIZATION))
-                .flatMap(jwtService::getSubFromToken)
+                .flatMap(jwtService::getUserIdFromToken)
                 .ifPresent(
-                        id -> {
+                        userId -> {
                             if (SecurityContextHolder.getContext().getAuthentication() == null) {
                                 userRepository
-                                        .findById(id)
+                                        .findById(userId)
                                         .ifPresent(
                                                 user -> {
                                                     UsernamePasswordAuthenticationToken

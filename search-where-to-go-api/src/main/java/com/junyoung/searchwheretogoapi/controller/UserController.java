@@ -27,6 +27,9 @@ public class UserController {
 
     @GetMapping("/user")
     public ApiResponse<UserWithToken> getUser(@AuthenticationPrincipal User user) {
+        if (user == null) {
+            throw new UserAuthenticationException(ResponseType.NOT_LOGIN_USER);
+        }
         User currentUser = userService.findByUsername(user.getUsername());
         return ApiResponse.success(new UserWithToken(currentUser, jwtService.toToken(currentUser)));
     }

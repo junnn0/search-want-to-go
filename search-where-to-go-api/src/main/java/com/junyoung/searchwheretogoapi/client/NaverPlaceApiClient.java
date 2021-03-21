@@ -2,8 +2,8 @@ package com.junyoung.searchwheretogoapi.client;
 
 import com.junyoung.searchwheretogoapi.exception.ExternalApiException;
 import com.junyoung.searchwheretogoapi.model.api.NaverPlace;
-import com.junyoung.searchwheretogoapi.model.api.NaverSearchResponse;
 import com.junyoung.searchwheretogoapi.model.api.Place;
+import com.junyoung.searchwheretogoapi.model.api.SearchListResponse;
 import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.properties.NaverApiProperties;
 import java.util.Collections;
@@ -43,14 +43,14 @@ public class NaverPlaceApiClient implements PlaceApiClient {
                                 .buildAndExpand(query);
 
         try {
-            NaverSearchResponse<NaverPlace> response =
+            SearchListResponse<NaverPlace> response =
                     restTemplate
                             .exchange(
                                     uri,
                                     HttpMethod.GET,
                                     new HttpEntity<>(makeAuthHeaders()),
                                     new ParameterizedTypeReference<
-                                            NaverSearchResponse<NaverPlace>>() {})
+                                            SearchListResponse<NaverPlace>>() {})
                             .getBody();
             if (response != null) {
                 return CompletableFuture.completedFuture(response.get());

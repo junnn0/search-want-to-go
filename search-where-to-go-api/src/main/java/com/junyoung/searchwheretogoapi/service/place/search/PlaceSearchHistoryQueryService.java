@@ -1,4 +1,4 @@
-package com.junyoung.searchwheretogoapi.service.search;
+package com.junyoung.searchwheretogoapi.service.place.search;
 
 import com.junyoung.searchwheretogoapi.model.api.PageParam;
 import com.junyoung.searchwheretogoapi.model.data.PlaceSearchHistory;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class PlaceSearchHistoryService {
+public class PlaceSearchHistoryQueryService {
     private final PlaceSearchHistoryQueryRepository historyQueryRepository;
 
     public List<PlaceSearchHistory> getPlaceSearchHistories(User user, PageParam pageParam) {

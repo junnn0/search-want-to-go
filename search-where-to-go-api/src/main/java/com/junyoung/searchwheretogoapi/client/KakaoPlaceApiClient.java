@@ -2,8 +2,8 @@ package com.junyoung.searchwheretogoapi.client;
 
 import com.junyoung.searchwheretogoapi.exception.ExternalApiException;
 import com.junyoung.searchwheretogoapi.model.api.KakaoPlace;
-import com.junyoung.searchwheretogoapi.model.api.KakaoSearchResponse;
 import com.junyoung.searchwheretogoapi.model.api.Place;
+import com.junyoung.searchwheretogoapi.model.api.SearchListResponse;
 import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.properties.KakaoApiProperties;
 import java.util.Collections;
@@ -42,14 +42,14 @@ public class KakaoPlaceApiClient implements PlaceApiClient {
                                 .buildAndExpand(query);
 
         try {
-            KakaoSearchResponse<KakaoPlace> response =
+            SearchListResponse<KakaoPlace> response =
                     restTemplate
                             .exchange(
                                     uri,
                                     HttpMethod.GET,
                                     new HttpEntity<>(makeAuthHeaders()),
                                     new ParameterizedTypeReference<
-                                            KakaoSearchResponse<KakaoPlace>>() {})
+                                            SearchListResponse<KakaoPlace>>() {})
                             .getBody();
             if (response != null) {
                 return CompletableFuture.completedFuture(response.get());

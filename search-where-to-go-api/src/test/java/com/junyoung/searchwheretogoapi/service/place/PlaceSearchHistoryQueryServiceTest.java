@@ -1,4 +1,4 @@
-package com.junyoung.searchwheretogoapi.service.search;
+package com.junyoung.searchwheretogoapi.service.place;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,8 +8,7 @@ import static org.mockito.Mockito.mock;
 
 import com.junyoung.searchwheretogoapi.client.PlaceApiClient;
 import com.junyoung.searchwheretogoapi.model.api.PlaceData;
-import com.junyoung.searchwheretogoapi.model.data.User;
-import com.junyoung.searchwheretogoapi.repository.PlaceSearchHistoryRepository;
+import com.junyoung.searchwheretogoapi.service.place.search.PlaceSearchService;
 import com.junyoung.searchwheretogoapi.util.TestDataUtil;
 import java.util.Collections;
 import java.util.List;
@@ -19,19 +18,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.CollectionUtils;
 
-class PlaceSearchHistoryServiceTest {
+class PlaceSearchHistoryQueryServiceTest {
 
     private PlaceSearchService placeSearchService;
 
     @BeforeEach
     void setUp() {
         PlaceApiClient placeApiClient = mock(PlaceApiClient.class);
-        PlaceSearchHistoryRepository placeSearchHistoryRepository =
-                mock(PlaceSearchHistoryRepository.class);
-
-        placeSearchService =
-                new PlaceSearchService(
-                        placeSearchHistoryRepository, Collections.singletonList(placeApiClient));
+        placeSearchService = new PlaceSearchService(Collections.singletonList(placeApiClient));
 
         // given
         given(placeApiClient.getPlaces(anyString()))
@@ -41,7 +35,7 @@ class PlaceSearchHistoryServiceTest {
     @Test
     void testGetSortedPlaces() throws ExecutionException, InterruptedException {
         // when
-        List<PlaceData> places = placeSearchService.getPlaces(new User(), "query").get();
+        List<PlaceData> places = placeSearchService.getPlaces("query").get();
 
         // then
         assertFalse(CollectionUtils.isEmpty(places));
