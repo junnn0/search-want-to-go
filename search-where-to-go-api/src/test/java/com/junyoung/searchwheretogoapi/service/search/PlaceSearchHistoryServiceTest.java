@@ -6,37 +6,44 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+import com.junyoung.searchwheretogoapi.client.PlaceApiClient;
+import com.junyoung.searchwheretogoapi.model.api.PlaceData;
+import com.junyoung.searchwheretogoapi.model.data.User;
+import com.junyoung.searchwheretogoapi.repository.PlaceSearchHistoryRepository;
+import com.junyoung.searchwheretogoapi.util.TestDataUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-
-import com.junyoung.searchwheretogoapi.client.PlaceApiClient;
-import com.junyoung.searchwheretogoapi.model.api.PlaceData;
-import com.junyoung.searchwheretogoapi.util.TestDataUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.CollectionUtils;
 
-class SearchServiceTest {
+class PlaceSearchHistoryServiceTest {
 
-    private SearchService searchService;
+    private PlaceSearchService placeSearchService;
 
     @BeforeEach
     void setUp() {
         PlaceApiClient placeApiClient = mock(PlaceApiClient.class);
-        searchService = new SearchService(Collections.singletonList(placeApiClient));
+        PlaceSearchHistoryRepository placeSearchHistoryRepository =
+                mock(PlaceSearchHistoryRepository.class);
 
-        //given
-        given(placeApiClient.getPlaces(anyString())).willReturn(CompletableFuture.completedFuture(TestDataUtil.createPlaces()));
+        placeSearchService =
+                new PlaceSearchService(
+                        placeSearchHistoryRepository, Collections.singletonList(placeApiClient));
+
+        // given
+        given(placeApiClient.getPlaces(anyString()))
+                .willReturn(CompletableFuture.completedFuture(TestDataUtil.createPlaces()));
     }
 
     @Test
     void testGetSortedPlaces() throws ExecutionException, InterruptedException {
-        //when
-        List<PlaceData> places = searchService.getPlaces("query").get();
+        // when
+        List<PlaceData> places = placeSearchService.getPlaces(new User(), "query").get();
 
-        //then
+        // then
         assertFalse(CollectionUtils.isEmpty(places));
         for (PlaceData placeData : places.subList(0, 3)) {
             assertTrue(placeData.getName().contains("dup"));

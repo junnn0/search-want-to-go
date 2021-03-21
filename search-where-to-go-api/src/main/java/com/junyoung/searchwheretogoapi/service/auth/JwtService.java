@@ -1,8 +1,7 @@
 package com.junyoung.searchwheretogoapi.service.auth;
 
-import java.util.Optional;
-
 import com.junyoung.searchwheretogoapi.model.data.User;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service

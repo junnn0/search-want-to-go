@@ -9,5 +9,4 @@ public class SearchWhereToGoApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(SearchWhereToGoApiApplication.class, args);
     }
-
 }

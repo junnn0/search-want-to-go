@@ -4,3 +4,11 @@ CREATE TABLE USER
     username VARCHAR(50)  NOT NULL,
     password VARCHAR(100) NOT NULL
 );
+
+CREATE TABLE PLACE_SEARCH_HISTORY
+(
+    id              INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    query           VARCHAR(300) NOT NULL,
+    username        VARCHAR(50)  NOT NULL,
+    create_datetime DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
+)

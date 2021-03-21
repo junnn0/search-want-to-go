@@ -15,5 +15,4 @@ public class EncryptService {
     public String encryptPassword(String password) {
         return ENCRYPT_ENGINE.deriveKeyFormatted(password);
     }
-
 }
