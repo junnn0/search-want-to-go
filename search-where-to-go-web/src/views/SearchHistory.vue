@@ -1,8 +1,8 @@
 <template>
   <div class="search-history">
     <h2>SearchHistory.vue</h2>
-    <div style="display: block">
-      <span v-for="history in histories" v-bind:key="history.id">{{ history }}</span>
+    <div>
+      <span style="display: block" v-for="history in histories" v-bind:key="history.id">{{ history }}</span>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
   created() {
     const token = TokenService.getToken();
     if (token) {
-      ApiService.setHeader()
+      ApiService.setAuthHeader()
       ApiService.get(`/v1.0/places/histories?pageSize=${this.pageSize}&pageNum=${this.pageNum}`)
           .then(({body}) => this.histories = body)
     } else {

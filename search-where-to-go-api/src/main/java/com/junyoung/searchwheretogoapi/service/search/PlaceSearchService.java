@@ -29,10 +29,11 @@ public class PlaceSearchService {
 
     public CompletableFuture<List<PlaceData>> getPlaces(User user, String query) {
         log.debug("> getPlaces(query={})", query);
+        String trimmedQuery = query.trim();
 
-        placeSearchHistoryRepository.save(new PlaceSearchHistory(query, user.getUserId()));
+        placeSearchHistoryRepository.save(new PlaceSearchHistory(trimmedQuery, user.getUserId()));
         return placeApiClients.stream()
-                .map(client -> client.getPlaces(query))
+                .map(client -> client.getPlaces(trimmedQuery))
                 .reduce(
                         (cf1, cf2) ->
                                 cf1.thenCombine(

@@ -19,6 +19,10 @@ spring:
 allowed:
   origin: http://localhost:8081
 
+count:
+  update:
+    interval: 500
+
 openapi:
   kakao:
     base-url: https://dapi.kakao.com

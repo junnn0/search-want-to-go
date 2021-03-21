@@ -18,8 +18,7 @@ public class PlaceSearchHistoryService {
 
     public List<PlaceSearchHistory> getPlaceSearchHistories(User user, PageParam pageParam) {
         log.debug("> getPlaceSearchHistories(user={}, pageParam={})", user, pageParam);
-        return historyQueryRepository.findByUsernameOrderByIdDesc(
-                user.getUsername(),
-                PageRequest.of(pageParam.getPageNum(), pageParam.getPageSize()));
+        return historyQueryRepository.findByUserIdOrderByHistoryIdDesc(
+                user.getUserId(), PageRequest.of(pageParam.getPageNum(), pageParam.getPageSize()));
     }
 }

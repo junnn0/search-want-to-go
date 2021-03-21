@@ -3,7 +3,8 @@
     <div id="nav">
       <router-link to="/">{{ $messages['common.home'] }}</router-link> |
       <router-link to="/join">{{ $messages['common.join'] }}</router-link> |
-      <router-link to="/histories">{{ $messages['common.search.history'] }}</router-link>
+      <router-link to="/histories">{{ $messages['common.search.history'] }}</router-link> |
+      <router-link to="/favorites">{{ $messages['common.search.favorite'] }}</router-link>
     </div>
     <router-view/>
   </div>
