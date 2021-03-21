@@ -34,7 +34,7 @@ export default {
       if (this.searchWord) {
         ApiService.setAuthHeader()
         ApiService.get(`/v1.0/places?query=${this.searchWord}`)
-            .then(({body}) => this.places = body)
+            .then(({data}) => this.places = data.body)
       }
     }
   }

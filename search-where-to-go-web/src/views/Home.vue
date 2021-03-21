@@ -27,10 +27,10 @@ export default {
       console.log('user:', this.getUser.username)
       ApiService.setAuthHeader()
       ApiService.get('/user')
-          .then(({header, body}) => {
-            console.log('Home', header, body)
-            if (header.isSuccessful) {
-              this.$store.dispatch(StoreConstant.SET_USER, body)
+          .then(({data}) => {
+            console.log('Home', data.header, data.body)
+            if (data.header.isSuccessful) {
+              this.$store.dispatch(StoreConstant.SET_USER, data.body)
               this.$router.push({name: 'Main'})
             }
           })

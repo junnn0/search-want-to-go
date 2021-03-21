@@ -12,7 +12,7 @@ const ApiService = {
     Vue.use(VueAxios, axios);
     this.setRequestInterceptor()
     this.setResponseInterceptor()
-    axios.defaults.withCredentials = true
+    Vue.axios.defaults.withCredentials = true
     if (runtimeConfig.apiBaseUrl) {
       Vue.axios.defaults.baseURL = runtimeConfig.apiBaseUrl
     } else {
@@ -21,17 +21,16 @@ const ApiService = {
   },
 
   setRequestInterceptor() {
-    axios.interceptors.request.use(function (request) {
+    Vue.axios.interceptors.request.use(function (request) {
       request.headers.common['Access-Control-Allow-Origin'] = '*'
       return request
     }, function (error) {
-      Vue.$log.error(error)
       return Promise.reject(error)
     })
   },
 
   setResponseInterceptor() {
-    axios.interceptors.response.use(function (response) {
+    Vue.axios.interceptors.response.use(function (response) {
       if (response.data.header && !response.data.header.isSuccessful) {
         if (response.data.header.resultCode === 1000) {
           resolveLogin()
@@ -42,14 +41,13 @@ const ApiService = {
         return new Promise(() => {
         })
       } else {
-        return response.data
+        return response
       }
     }, function (error) {
       if (Object.prototype.hasOwnProperty.call(error.config, 'errorHandle') && error.config.errorHandle === false) {
         return Promise.reject(error)
       }
 
-      Vue.$log.error(error)
       showErrorMessage(messages['errors.common.network.failure'])
     })
   },
