@@ -30,7 +30,7 @@ public class DefaultJwtService implements JwtService {
     @Override
     public String toToken(User user) {
         return Jwts.builder()
-                .setSubject(user.getId())
+                .setSubject(user.getUserId())
                 .setExpiration(expireTimeFromNow())
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();

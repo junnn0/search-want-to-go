@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(indexes = @Index(name = "idx_place_search_history_username", columnList = "username"))
+@Table(indexes = @Index(name = "idx_place_search_history_user_id", columnList = "userId"))
 @Entity
 public class PlaceSearchHistory {
     @Id
