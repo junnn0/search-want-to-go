@@ -24,7 +24,10 @@ public class UserService {
         if (foundUser != null) {
             throw new UserAuthenticationException(ResponseType.ALREADY_EXISTS_USER);
         }
-        User user = new User(userParam.getUsername(), encryptService.encryptPassword(userParam.getPassword()));
+        User user =
+                new User(
+                        userParam.getUsername(),
+                        encryptService.encryptPassword(userParam.getPassword()));
         return userRepository.save(user);
     }
 
@@ -36,5 +39,4 @@ public class UserService {
     public boolean isCorrectPassword(String requestedPassword, User user) {
         return encryptService.checkPassword(user.getPassword(), requestedPassword);
     }
-
 }

@@ -1,7 +1,5 @@
 package com.junyoung.searchwheretogoapi.controller;
 
-import javax.validation.Valid;
-
 import com.junyoung.searchwheretogoapi.exception.UserAuthenticationException;
 import com.junyoung.searchwheretogoapi.model.UserParam;
 import com.junyoung.searchwheretogoapi.model.UserWithToken;
@@ -10,6 +8,7 @@ import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.model.data.User;
 import com.junyoung.searchwheretogoapi.service.auth.JwtService;
 import com.junyoung.searchwheretogoapi.service.user.UserService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -47,5 +46,4 @@ public class UserController {
             throw new UserAuthenticationException(ResponseType.NOT_EXISTS_USER);
         }
     }
-
 }

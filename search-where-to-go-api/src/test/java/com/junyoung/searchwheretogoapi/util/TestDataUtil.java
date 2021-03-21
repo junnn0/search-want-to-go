@@ -1,11 +1,10 @@
 package com.junyoung.searchwheretogoapi.util;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.junyoung.searchwheretogoapi.model.api.KakaoPlace;
 import com.junyoung.searchwheretogoapi.model.api.NaverPlace;
 import com.junyoung.searchwheretogoapi.model.api.Place;
+import java.util.Arrays;
+import java.util.List;
 
 public class TestDataUtil {
     public static List<Place> createPlaces() {
@@ -34,5 +33,4 @@ public class TestDataUtil {
         naverPlace.setTitle(name);
         return naverPlace;
     }
-
 }

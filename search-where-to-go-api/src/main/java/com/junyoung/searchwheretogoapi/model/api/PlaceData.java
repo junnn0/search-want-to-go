@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlaceData{
+public class PlaceData {
     private String name;
     private String address;
     private String phone;

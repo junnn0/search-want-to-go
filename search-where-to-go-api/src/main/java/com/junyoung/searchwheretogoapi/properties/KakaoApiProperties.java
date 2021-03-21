@@ -1,7 +1,6 @@
 package com.junyoung.searchwheretogoapi.properties;
 
 import java.util.Map;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @NoArgsConstructor
-@ConfigurationProperties(prefix = "open-api.kakao")
+@ConfigurationProperties(prefix = "openapi.kakao")
 @Component
 public class KakaoApiProperties {
     private String baseUrl;

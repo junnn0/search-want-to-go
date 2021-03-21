@@ -17,7 +17,8 @@ public class ApiResponse<T> {
     }
 
     public static <T> ApiResponse<T> fail(ResponseType responseType) {
-        ApiResponseHeader header = new ApiResponseHeader(false, responseType.getCode(), responseType.getMessage());
+        ApiResponseHeader header =
+                new ApiResponseHeader(false, responseType.getCode(), responseType.getMessage());
         return new ApiResponse<>(header, null);
     }
 }

@@ -14,9 +14,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(UserAuthenticationException.class)
-    public ApiResponse<Object> handleUserAuthenticationException(UserAuthenticationException exception) {
+    public ApiResponse<Object> handleUserAuthenticationException(
+            UserAuthenticationException exception) {
         log.info(">> handleUserAuthenticationException(message={})", exception.getMessage());
         return ApiResponse.fail(exception.getResponseType());
     }
-
 }

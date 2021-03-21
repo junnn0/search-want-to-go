@@ -1,17 +1,17 @@
 package com.junyoung.searchwheretogoapi.client;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 import com.junyoung.searchwheretogoapi.exception.ExternalApiException;
 import com.junyoung.searchwheretogoapi.model.api.KakaoPlace;
 import com.junyoung.searchwheretogoapi.model.api.KakaoSearchResponse;
 import com.junyoung.searchwheretogoapi.model.api.Place;
 import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.properties.KakaoApiProperties;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 @RequiredArgsConstructor
+@ConditionalOnProperty(prefix = "openapi.kakao", name = "base-url")
 @Component
 public class KakaoPlaceApiClient implements PlaceApiClient {
     private static final String AUTH_HEADER_PREFIX = "KakaoAK ";
@@ -35,17 +36,20 @@ public class KakaoPlaceApiClient implements PlaceApiClient {
     public CompletableFuture<List<? extends Place>> getPlaces(String query) {
         log.debug("> getPlaces(query={})", query);
 
-        String uri = properties.getBaseUrl()
-                + UriComponentsBuilder.fromUriString(properties.getApi().get("getPlaces"))
-                .buildAndExpand(query);
+        String uri =
+                properties.getBaseUrl()
+                        + UriComponentsBuilder.fromUriString(properties.getApi().get("getPlaces"))
+                                .buildAndExpand(query);
 
         try {
             KakaoSearchResponse<KakaoPlace> response =
-                    restTemplate.exchange(
-                            uri,
-                            HttpMethod.GET,
-                            new HttpEntity<>(makeAuthHeaders()),
-                            new ParameterizedTypeReference<KakaoSearchResponse<KakaoPlace>>() {})
+                    restTemplate
+                            .exchange(
+                                    uri,
+                                    HttpMethod.GET,
+                                    new HttpEntity<>(makeAuthHeaders()),
+                                    new ParameterizedTypeReference<
+                                            KakaoSearchResponse<KakaoPlace>>() {})
                             .getBody();
             if (response != null) {
                 return CompletableFuture.completedFuture(response.get());
@@ -62,5 +66,4 @@ public class KakaoPlaceApiClient implements PlaceApiClient {
         headers.set(HttpHeaders.AUTHORIZATION, AUTH_HEADER_PREFIX + properties.getApiKey());
         return headers;
     }
-
 }
