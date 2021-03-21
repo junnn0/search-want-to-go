@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,14 +16,16 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id
     @Column(length = 50, nullable = false, unique = true)
-    private String id;
+    private String userId;
+
     @Column(length = 50, nullable = false)
     private String username;
+
     @Column(length = 100, nullable = false)
     private String password;
 
     public User(String username, String password) {
-        this.id = UUID.randomUUID().toString();
+        this.userId = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
     }
