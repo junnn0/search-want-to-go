@@ -32,6 +32,11 @@ const routes = [
     path: '/histories',
     name: 'SearchHistory',
     component: () => import('@/views/SearchHistory')
+  },
+  {
+    path: '/favorites',
+    name: 'SearchFavorite',
+    component: () => import('@/views/SearchFavorite')
   }
 ]
 

@@ -25,7 +25,7 @@ export default {
     console.log('home:', token)
     if (token) {
       console.log('user:', this.getUser.username)
-      ApiService.setHeader()
+      ApiService.setAuthHeader()
       ApiService.get('/user')
           .then(({header, body}) => {
             console.log('Home', header, body)

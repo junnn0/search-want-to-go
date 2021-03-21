@@ -54,7 +54,7 @@ const ApiService = {
     })
   },
 
-  setHeader() {
+  setAuthHeader() {
     Vue.axios.defaults.headers.common[
       "Authorization"
       ] = `Token ${TokenService.getToken()}`
