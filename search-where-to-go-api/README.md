@@ -4,6 +4,77 @@
 
 ## Endpoints
 
+### 회원가입
+
+```shell
+curl -X POST -H 'Content-Type: application/json' \
+    -d '{"username": "$username", "password": "$password"}' \
+    "http://localhost:8080/users"
+```
+
+* username: 사용자 이름
+* password: 비밀번호
+
+#### 회원가입 성공
+
+```json
+{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":{"userId":"97ce9dd5-150c-4444-9141-cd1ba6188019","username":"test-username","token":"eyJhbGciOiJIUzUxMiJ9...."}}
+```
+#### 회원가입 실패
+
+```json
+{"header":{"isSuccessful":false,"resultCode":2001,"resultMessage":"Validation failed..."},"body":null}
+```
+
+### 회원정보 조회
+
+```shell
+curl -X GET -H 'Content-Type: application/json' \
+    -H 'Authorization: Token $token'
+    "http://localhost:8080/user"
+```
+
+* token: 회원가입 시 응답으로 전달받은 `token` 값
+
+#### 회원정보 조회 성공
+
+```json
+{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":{"userId":"97ce9dd5-150c-4444-9141-cd1ba6188019","username":"test-username","token":"eyJhbGciOiJIUzUxMiJ9...."}}
+```
+
+#### 회원정보 조회 실패
+
+```json
+{"header":{"isSuccessful":false,"resultCode":1000,"resultMessage":"user is not logged in."},"body":null}
+```
+
+### 로그인
+
+```shell
+curl -X POST -H 'Content-Type: application/json' \
+    -d '{"username": "$username", "password": "$password"}'
+    "http://localhost:8080/users/login"
+```
+
+#### 로그인 성공
+
+```json
+{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":{"userId":"97ce9dd5-150c-4444-9141-cd1ba6188019","username":"test-username","token":"eyJhbGciOiJIUzUxMiJ9...."}}
+```
+
+#### 로그인 실패
+
+```json
+{"header":{"isSuccessful":false,"resultCode":1001,"resultMessage":"user is not exists."},"body":null}
+```
+
+### 검색 관련
+
+키워드 검색 -> 내 검색 히스토리 -> 인기 키워드 목록
+
+
+
+
 ## Test
 
 
