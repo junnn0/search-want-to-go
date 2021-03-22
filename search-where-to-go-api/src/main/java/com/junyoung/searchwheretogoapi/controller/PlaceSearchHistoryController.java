@@ -1,5 +1,7 @@
 package com.junyoung.searchwheretogoapi.controller;
 
+import javax.validation.Valid;
+
 import com.junyoung.searchwheretogoapi.exception.UserAuthenticationException;
 import com.junyoung.searchwheretogoapi.model.api.PageParam;
 import com.junyoung.searchwheretogoapi.model.common.ApiResponse;
@@ -24,7 +26,7 @@ public class PlaceSearchHistoryController {
 
     @GetMapping("/places/histories")
     public ApiResponse<List<PlaceSearchHistory>> getPlaceSearchHistories(
-            @AuthenticationPrincipal User user, PageParam pageParam) {
+            @AuthenticationPrincipal User user, @Valid PageParam pageParam) {
         log.debug("> getPlaceSearchHistories(user={}, pageParam={})", user, pageParam);
         if (user == null) {
             throw new UserAuthenticationException(ResponseType.NOT_LOGIN_USER);
