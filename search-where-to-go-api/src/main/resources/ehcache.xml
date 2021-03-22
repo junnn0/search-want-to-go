@@ -14,17 +14,7 @@
             memoryStoreEvictionPolicy="LRU"
     />
 
-    <cache name="naverPlaces"
-           maxEntriesLocalHeap="10000"
-           maxEntriesLocalDisk="20000"
-           diskSpoolBufferSizeMB="20"
-           timeToIdleSeconds="300"
-           timeToLiveSeconds="600"
-           memoryStoreEvictionPolicy="LFU">
-        <persistence strategy="localTempSwap"/>
-    </cache>
-
-    <cache name="kakaoPlaces"
+    <cache name="getPlaces"
            maxEntriesLocalHeap="10000"
            maxEntriesLocalDisk="20000"
            diskSpoolBufferSizeMB="20"

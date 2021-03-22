@@ -4,14 +4,12 @@ import com.junyoung.searchwheretogoapi.exception.ExternalApiException;
 import com.junyoung.searchwheretogoapi.model.api.NaverPlace;
 import com.junyoung.searchwheretogoapi.model.api.Place;
 import com.junyoung.searchwheretogoapi.model.api.SearchListResponse;
-import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.properties.NaverApiProperties;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +29,6 @@ public class NaverPlaceApiClient implements PlaceApiClient {
     private final NaverApiProperties properties;
     private final RestTemplate restTemplate;
 
-    @Cacheable("naverPlaces")
     @Override
     public List<? extends Place> getPlaces(String query) {
         log.debug("> getPlaces(query={})", query);
@@ -57,7 +54,7 @@ public class NaverPlaceApiClient implements PlaceApiClient {
                 return Collections.emptyList();
             }
         } catch (Exception ex) {
-            throw new ExternalApiException(ResponseType.EXTERNAL_API_ERROR);
+            throw new ExternalApiException();
         }
     }
 

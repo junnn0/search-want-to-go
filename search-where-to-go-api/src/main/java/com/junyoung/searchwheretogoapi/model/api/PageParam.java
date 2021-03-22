@@ -2,7 +2,6 @@ package com.junyoung.searchwheretogoapi.model.api;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
