@@ -1,12 +1,34 @@
 # search-where-to-go-api
 
-[Spring-Boot](https://spring.io/projects/spring-boot) Framework로 작성된 API 프로젝트.
+[Spring-Boot](https://spring.io/projects/spring-boot) Framework로 작성된 API 프로젝트입니다.
+
+## 추가 고려사항
+
+### Endpoint에 부하가 매우 커졌을 경우?
+
+
+
+### 동시성 문제?
+
+인기 키워드 조회 수 변경 시 DB의 부하를 최대한 줄이고 정확성을 제공하기 위해서 캐시를 사용합니다.<br/>
+검색 시 특정 키워드에 대한 조회수를, 메모리 내의 캐시역할을 하는 Map에서 관리하고 주기적으로 해당 캐시에 누산된 값을 DB에 업데이트합니다.<br/>
+인기 키워드 조회 시에는 DB에서 가져온 조회수와 캐시 내의 존재하는 조회수를 합하여 응답합니다.<br/>
+
+현재 캐시는 로컬에서 Map을 사용하고 있지만, 이후 부하가 커지는 경우 외부 In-memory db인 redis를 구축하여 사용하여도 무방합니다.<br/>
+(*인터페이스인 SearchCounter를 구현한 Bean을 변경하여 사용*)
 
 ## Endpoints
 
-## Endpoints test
+1. <a href="#join">회원가입</a>
+2. <a href="#user">회원정보 조회</a>
+3. <a href="#login">로그인</a>
+4. <a href="#search">키워드 검색</a>
+5. <a href="#history">내 검색 히스토리</a>
+6. <a href="#favorite">인기 키워드 목록 조회</a>
 
-### 회원가입
+## Endpoint examples
+
+### <span id="join">회원가입</span>
 ```shell
 curl -X POST -H 'Content-Type: application/json' \
     -d '{"username": "$username", "password": "$password"}' \
@@ -24,7 +46,7 @@ curl -X POST -H 'Content-Type: application/json' \
 {"header":{"isSuccessful":false,"resultCode":2001,"resultMessage":"Validation failed..."},"body":null}
 ```
 
-### 회원정보 조회
+### <span id="user">회원정보 조회</span>
 ```shell
 curl -X GET -H 'Authorization: Token $token' \
     "http://localhost:8080/user"
@@ -40,7 +62,7 @@ curl -X GET -H 'Authorization: Token $token' \
 {"header":{"isSuccessful":false,"resultCode":1000,"resultMessage":"user is not logged in."},"body":null}
 ```
 
-### 로그인
+### <span id="login">로그인</span>
 ```shell
 curl -X POST -H 'Content-Type: application/json' \
     -d '{"username": "$username", "password": "$password"}' \
@@ -57,7 +79,7 @@ curl -X POST -H 'Content-Type: application/json' \
 {"header":{"isSuccessful":false,"resultCode":1001,"resultMessage":"user is not exists."},"body":null}
 ```
 
-### 키워드 검색
+### <span id="search">키워드 검색</span>
 ```shell
 curl -X GET -H 'Authorization: Token $token' \
     "http://localhost:8080/v1.0/places?query=$query"
@@ -77,7 +99,7 @@ curl -X GET -H 'Authorization: Token $token' \
 {"header":{"isSuccessful":false,"resultCode":2001,"resultMessage":"Request 'query' is invalid in value with ''"},"body":null}
 ```
 
-### 내 검색 히스토리 
+### <span id="history">내 검색 히스토리</span> 
 ```shell
 curl -X GET -H 'Authorization: Token $token' \
     "http://localhost:8080/v1.0/places/histories?pageNum=$pageNum&pageSize=$pageSize"
@@ -95,7 +117,7 @@ curl -X GET -H 'Authorization: Token $token' \
 {"header":{"isSuccessful":false,"resultCode":2001,"resultMessage":"Request 'pageNum' is invalid in value with '-1'Request 'pageSize' is invalid in value with '0'"},"body":null}
 ```
 
-### 인기 키워드 목록 조회
+### <span id="favorite">인기 키워드 목록 조회</span>
 ```shell
 curl -X GET -H 'Authorization: Token $token' \
     "http://localhost:8080/v1.0/places/favorites"
@@ -115,7 +137,7 @@ curl -X GET -H 'Authorization: Token $token' \
 
 ### [H2](https://www.h2database.com/)
 
-In-memory 데이터베이스로 사용.
+개발환경에서 In-memory 데이터베이스로 사용합니다.
 
 ```yaml
 spring:
@@ -132,7 +154,7 @@ spring:
 
 > Java JWT: JSON Web Token for Java and Android
 
-JSON Web Token을 사용하여 사용자의 로그인 정보를 생성하고 인증하기 위하여 사용.
+JSON Web Token을 사용하여 사용자의 로그인 정보를 생성하고 인증하기 위하여 사용합니다.
 
 #### Gradle
 ```groovy
@@ -143,7 +165,7 @@ implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
 > A free Java implementation of RFC 2898 / PKCS#5 PBKDF2
 
-회원가입한 사용자의 비밀번호를 PBKDF2 암호화 알고리즘을 통해 암호화하기 위하여 사용.
+회원가입한 사용자의 비밀번호를 PBKDF2 암호화 알고리즘을 통해 암호화하기 위하여 사용합니다.
 
 #### Gradle
 ```groovy
@@ -154,7 +176,7 @@ implementation 'de.rtner:PBKDF2:1.1.4'
 
 > This library is a port of Ruby's faker gem (as well as Perl's Data::Faker library) that generates fake data. It's useful when you're developing a new project and need some pretty data for showcase.
 
-테스트 코드에서 임의의 중복되지 않는 데이터를 생성하기 위하여 사용.
+테스트 코드에서 임의의 중복되지 않는 데이터를 생성하기 위하여 사용합니다.
 
 #### Gradle
 ```groovy
@@ -165,7 +187,7 @@ testImplementation 'com.github.javafaker:javafaker:1.0.2'
 
 > JAVA’S MOST WIDELY-USED CACHE
 
-Open API 조회 시, 캐시를 적용하고 관리할 CacheManager 로써 사용
+Open API 조회 시, 캐시를 적용하고 관리할 CacheManager 로써 사용합니다.
 
 #### Gradle
 ```groovy
