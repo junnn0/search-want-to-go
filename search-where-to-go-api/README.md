@@ -17,7 +17,7 @@ curl -X POST -H 'Content-Type: application/json' \
 
 회원가입 성공
 ```json
-{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":{"userId":"97ce9dd5-150c-4444-9141-cd1ba6188019","username":"test-username","token":"eyJhbGciOiJIUzUxMiJ9...."}}
+{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":{"userId":"97ce9dd5-...","username":"test-username","token":"eyJhbGciOiJIUzUxMiJ9...."}}
 ```
 회원가입 실패
 ```json
@@ -33,7 +33,7 @@ curl -X GET -H 'Authorization: Token $token' \
 
 회원정보 조회 성공
 ```json
-{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":{"userId":"97ce9dd5-150c-4444-9141-cd1ba6188019","username":"test-username","token":"eyJhbGciOiJIUzUxMiJ9...."}}
+{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":{"userId":"97ce9dd5-...","username":"test-username","token":"eyJhbGciOiJIUzUxMiJ9...."}}
 ```
 회원정보 조회 실패
 ```json
@@ -50,7 +50,7 @@ curl -X POST -H 'Content-Type: application/json' \
 * `$password`: 비밀번호
 로그인 성공
 ```json
-{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":{"userId":"97ce9dd5-150c-4444-9141-cd1ba6188019","username":"test-username","token":"eyJhbGciOiJIUzUxMiJ9...."}}
+{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":{"userId":"97ce9dd5-...","username":"test-username","token":"eyJhbGciOiJIUzUxMiJ9...."}}
 ```
 로그인 실패
 ```json
@@ -88,7 +88,7 @@ curl -X GET -H 'Authorization: Token $token' \
 
 검색 히스토리 조회 성공
 ```json
-{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":[{"historyId":2,"query":"starbucks","userId":"7ef78c01-a232-4eb0-bc7f-60a88b372d08","createDatetime":"2021-03-22T00:24:30.056361"},{"historyId":1,"query":"starbuks","userId":"7ef78c01-a232-4eb0-bc7f-60a88b372d08","createDatetime":"2021-03-22T00:24:25.168301"}]}
+{"header":{"isSuccessful":true,"resultCode":0,"resultMessage":"SUCCESS"},"body":[{"historyId":2,"query":"starbucks","userId":"7ef78c01-...","createDatetime":"2021-03-22T00:24:30.056361"},{"historyId":1,"query":"starbuks","userId":"7ef78c01-a232-4eb0-bc7f-60a88b372d08","createDatetime":"2021-03-22T00:24:25.168301"}]}
 ```
 검색 히스토리 조회 실패
 ```json
@@ -161,3 +161,13 @@ implementation 'de.rtner:PBKDF2:1.1.4'
 testImplementation 'com.github.javafaker:javafaker:1.0.2'
 ```
 
+### [ehcache](https://www.ehcache.org/)
+
+> JAVA’S MOST WIDELY-USED CACHE
+
+Open API 조회 시, 캐시를 적용하고 관리할 CacheManager 로써 사용
+
+#### Gradle
+```groovy
+implementation 'net.sf.ehcache:ehcache:2.10.6'
+```
