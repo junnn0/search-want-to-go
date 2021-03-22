@@ -1,7 +1,5 @@
 package com.junyoung.searchwheretogoapi.controller;
 
-import javax.validation.Valid;
-
 import com.junyoung.searchwheretogoapi.exception.UserAuthenticationException;
 import com.junyoung.searchwheretogoapi.model.api.PageParam;
 import com.junyoung.searchwheretogoapi.model.common.ApiResponse;
@@ -10,6 +8,7 @@ import com.junyoung.searchwheretogoapi.model.data.PlaceSearchHistory;
 import com.junyoung.searchwheretogoapi.model.data.User;
 import com.junyoung.searchwheretogoapi.service.place.search.PlaceSearchHistoryQueryService;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

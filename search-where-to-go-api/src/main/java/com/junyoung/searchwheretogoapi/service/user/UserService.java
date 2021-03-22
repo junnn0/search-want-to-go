@@ -9,6 +9,7 @@ import com.junyoung.searchwheretogoapi.service.auth.EncryptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class UserService {
     private final EncryptService encryptService;
     private final UserRepository userRepository;
 
+    @Transactional
     public User createUser(UserParam userParam) {
         log.debug("> createUser(userParam={})", userParam);
         User foundUser = userRepository.findByUsername(userParam.getUsername());
