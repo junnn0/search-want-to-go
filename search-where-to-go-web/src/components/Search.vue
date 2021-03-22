@@ -1,20 +1,20 @@
 <template>
   <div id="search">
     <label for="searchBar">{{ $messages['common.search.word'] }}</label>
-    <input id="searchBar" type="text" v-model="searchWord"/>
-    <button @click="search" variant="danger">{{ $messages['common.search'] }}</button>
+    <input id="searchBar" type="text" v-model="searchWord" @keydown.enter="search"/>
+    <button @click="search">{{ $messages['common.search'] }}</button>
 
     <div>{{ `${$messages['common.total']} ${totalCount}` }}</div>
-    <div class="mb-3" name="place-container">
+    <div class="mb-3">
       <div v-for="place in places" v-bind:key="place.name" style="display:block">
-        <span name="place-col">{{ place.name }}</span>
+        <span>{{ place.name }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ApiService from "@/common/api.service"
+import ApiService from '@/common/api.service'
 
 export default {
   name: 'Search',
