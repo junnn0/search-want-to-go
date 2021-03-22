@@ -12,8 +12,6 @@ import com.junyoung.searchwheretogoapi.service.place.search.PlaceSearchService;
 import com.junyoung.searchwheretogoapi.util.TestDataUtil;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.CollectionUtils;
@@ -24,18 +22,19 @@ class PlaceSearchHistoryQueryServiceTest {
 
     @BeforeEach
     void setUp() {
-        PlaceApiClient placeApiClient = mock(PlaceApiClient.class);
-        placeSearchService = new PlaceSearchService(Collections.singletonList(placeApiClient));
-
         // given
+        PlaceApiClient placeApiClient = mock(PlaceApiClient.class);
+
         given(placeApiClient.getPlaces(anyString()))
-                .willReturn(CompletableFuture.completedFuture(TestDataUtil.createPlaces()));
+                .willAnswer(invocation -> TestDataUtil.createPlaces());
+
+        placeSearchService = new PlaceSearchService(Collections.singletonList(placeApiClient));
     }
 
     @Test
-    void testGetSortedPlaces() throws ExecutionException, InterruptedException {
+    void testGetSortedPlaces() {
         // when
-        List<PlaceData> places = placeSearchService.getPlaces("query").get();
+        List<PlaceData> places = placeSearchService.getPlaces("query");
 
         // then
         assertFalse(CollectionUtils.isEmpty(places));
