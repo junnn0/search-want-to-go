@@ -1,5 +1,7 @@
 package com.junyoung.searchwheretogoapi.model.api;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PageParam {
-    private int pageNum;
-    private int pageSize;
+    @PositiveOrZero private int pageNum = 0;
+    @Positive private int pageSize = 10;
 }

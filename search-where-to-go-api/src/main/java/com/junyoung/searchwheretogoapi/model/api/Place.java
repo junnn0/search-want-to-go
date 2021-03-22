@@ -1,5 +1,7 @@
 package com.junyoung.searchwheretogoapi.model.api;
 
-public interface Place {
+import java.io.Serializable;
+
+public interface Place extends Serializable {
     PlaceData toPlaceData();
 }

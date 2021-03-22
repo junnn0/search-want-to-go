@@ -1,4 +1,4 @@
-package com.junyoung.searchwheretogoapi.model;
+package com.junyoung.searchwheretogoapi.model.api;
 
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;

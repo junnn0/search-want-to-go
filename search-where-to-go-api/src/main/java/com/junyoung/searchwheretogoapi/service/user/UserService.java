@@ -1,7 +1,7 @@
 package com.junyoung.searchwheretogoapi.service.user;
 
 import com.junyoung.searchwheretogoapi.exception.UserAuthenticationException;
-import com.junyoung.searchwheretogoapi.model.UserParam;
+import com.junyoung.searchwheretogoapi.model.api.UserParam;
 import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.model.data.User;
 import com.junyoung.searchwheretogoapi.repository.UserRepository;

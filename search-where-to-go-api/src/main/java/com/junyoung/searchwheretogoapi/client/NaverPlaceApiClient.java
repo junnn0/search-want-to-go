@@ -8,15 +8,14 @@ import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.properties.NaverApiProperties;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,9 +31,9 @@ public class NaverPlaceApiClient implements PlaceApiClient {
     private final NaverApiProperties properties;
     private final RestTemplate restTemplate;
 
-    @Async
+    @Cacheable("naverPlaces")
     @Override
-    public CompletableFuture<List<? extends Place>> getPlaces(String query) {
+    public List<? extends Place> getPlaces(String query) {
         log.debug("> getPlaces(query={})", query);
 
         String uri =
@@ -53,9 +52,9 @@ public class NaverPlaceApiClient implements PlaceApiClient {
                                             SearchListResponse<NaverPlace>>() {})
                             .getBody();
             if (response != null) {
-                return CompletableFuture.completedFuture(response.get());
+                return response.get();
             } else {
-                return CompletableFuture.completedFuture(Collections.emptyList());
+                return Collections.emptyList();
             }
         } catch (Exception ex) {
             throw new ExternalApiException(ResponseType.EXTERNAL_API_ERROR);

@@ -1,6 +1,5 @@
-package com.junyoung.searchwheretogoapi.advice;
+package com.junyoung.searchwheretogoapi.exception;
 
-import com.junyoung.searchwheretogoapi.exception.UserAuthenticationException;
 import com.junyoung.searchwheretogoapi.model.common.ApiResponse;
 import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import java.util.stream.Collectors;
