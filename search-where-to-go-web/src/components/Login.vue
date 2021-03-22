@@ -3,11 +3,11 @@
     <h1>Login.vue</h1>
     <div>
       <label for="username">{{ $messages['common.username'] }}: </label>
-      <input id="username" type="text" v-model="username"/>
+      <input id="username" type="text" v-model="username" @keydown.enter="login"/>
     </div>
     <div>
       <label for="password">{{ $messages['common.password'] }}: </label>
-      <input id="password" type="password" v-model="password"/>
+      <input id="password" type="password" v-model="password" @keydown.enter="login"/>
     </div>
     <div>
       <button @click="login">Login</button>
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import ApiService from "@/common/api.service"
-import StoreConstant from "@/store/constant";
+import ApiService from '@/common/api.service'
+import StoreConstant from '@/store/constant'
 
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       username: '',
