@@ -7,25 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
-@Service
-public class SearchCountService {
+public class DefaultMapSearchCounter implements SearchCounter {
     private static final Long FIRST_INPUT_COUNT = 1L;
     private final Map<String, Long> counterMap = new ConcurrentHashMap<>();
 
-    public Map<String, Long> getCounterMapSnapshot() {
-        return JsonUtil.convertAs(counterMap, new TypeReference<Map<String, Long>>() {});
-    }
-
-    public List<SearchCount> getSearchedCounts() {
-        return counterMap.entrySet().stream()
-                .map(entry -> new SearchCount(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toList());
-    }
-
+    @Override
     public void count(String query) {
         String trimmedQuery = query.trim();
         if (counterMap.containsKey(trimmedQuery)) {
@@ -35,6 +22,19 @@ public class SearchCountService {
         }
     }
 
+    @Override
+    public List<SearchCount> getSearchedCounts() {
+        return counterMap.entrySet().stream()
+                .map(entry -> new SearchCount(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<String, Long> getCounterMapSnapshot() {
+        return JsonUtil.convertAs(counterMap, new TypeReference<Map<String, Long>>() {});
+    }
+
+    @Override
     public void clearCounter() {
         counterMap.clear();
     }

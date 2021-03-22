@@ -2,7 +2,7 @@ package com.junyoung.searchwheretogoapi.service.place.search;
 
 import com.junyoung.searchwheretogoapi.model.data.SearchCount;
 import com.junyoung.searchwheretogoapi.repository.PlaceSearchCountRepository;
-import com.junyoung.searchwheretogoapi.service.place.SearchCountService;
+import com.junyoung.searchwheretogoapi.service.place.SearchCounter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,10 +18,10 @@ public class PlaceSearchCountQueryService {
     private static final int MAX_TOP_SEARCH_COUNT = 10;
     private static final String ORDER_COLUMN = "count";
     private final PlaceSearchCountRepository placeSearchCountRepository;
-    private final SearchCountService searchCountService;
+    private final SearchCounter searchCounter;
 
     public List<SearchCount> getTopSearchedCounts() {
-        Map<String, Long> countsFromCache = searchCountService.getCounterMapSnapshot();
+        Map<String, Long> countsFromCache = searchCounter.getCounterMapSnapshot();
         List<SearchCount> searchCounts =
                 placeSearchCountRepository
                         .findAll(
