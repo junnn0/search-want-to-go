@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
-import com.junyoung.searchwheretogoapi.model.UserParam;
+import com.junyoung.searchwheretogoapi.model.api.UserParam;
 import com.junyoung.searchwheretogoapi.model.data.User;
 import com.junyoung.searchwheretogoapi.repository.UserRepository;
 import com.junyoung.searchwheretogoapi.service.auth.EncryptService;

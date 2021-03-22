@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.junyoung.searchwheretogoapi.model.UserParam;
+import com.junyoung.searchwheretogoapi.model.api.UserParam;
 import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.service.auth.JwtService;
 import com.junyoung.searchwheretogoapi.service.user.UserService;

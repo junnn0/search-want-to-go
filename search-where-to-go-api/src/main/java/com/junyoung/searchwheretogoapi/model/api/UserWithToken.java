@@ -1,4 +1,4 @@
-package com.junyoung.searchwheretogoapi.model;
+package com.junyoung.searchwheretogoapi.model.api;
 
 import com.junyoung.searchwheretogoapi.model.data.User;
 import lombok.Getter;

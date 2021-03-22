@@ -4,13 +4,10 @@ import com.junyoung.searchwheretogoapi.client.PlaceApiClient;
 import com.junyoung.searchwheretogoapi.model.api.Place;
 import com.junyoung.searchwheretogoapi.model.api.PlaceData;
 import com.junyoung.searchwheretogoapi.util.NamingUtil;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -23,27 +20,18 @@ import org.springframework.stereotype.Service;
 public class PlaceSearchService {
     private final List<PlaceApiClient> placeApiClients;
 
-    public CompletableFuture<List<PlaceData>> getPlaces(String query) {
+    public List<PlaceData> getPlaces(String query) {
         log.debug("> getPlaces(query={})", query);
         String trimmedQuery = query.trim();
 
-        return placeApiClients.stream()
-                .map(client -> client.getPlaces(trimmedQuery))
-                .reduce(
-                        (cf1, cf2) ->
-                                cf1.thenCombine(
-                                        cf2,
-                                        (lst1, lst2) -> {
-                                            List<Place> mergedList = new ArrayList<>(lst1);
-                                            mergedList.addAll(lst2);
-                                            return mergedList;
-                                        }))
-                .map(places -> places.thenApply(mapToPlaceData).thenApply(sortByFrequency))
-                .orElse(CompletableFuture.completedFuture(Collections.emptyList()));
-    }
+        List<PlaceData> placeData =
+                placeApiClients.stream()
+                        .flatMap(placeApiClient -> placeApiClient.getPlaces(trimmedQuery).stream())
+                        .map(Place::toPlaceData)
+                        .collect(Collectors.toList());
 
-    private final Function<List<? extends Place>, List<PlaceData>> mapToPlaceData =
-            places -> places.stream().map(Place::toPlaceData).collect(Collectors.toList());
+        return sortByFrequency.apply(placeData);
+    }
 
     private final UnaryOperator<List<PlaceData>> sortByFrequency =
             places -> {
