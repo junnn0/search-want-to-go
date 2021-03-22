@@ -29,6 +29,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ResponseBody
+    @ExceptionHandler(ExternalApiException.class)
+    public ResponseEntity<Object> handleExternalApiException(ExternalApiException ex) {
+        log.info(">> handleExternalApiException(message={})", ex.getMessage());
+        return ResponseEntity.ok(ApiResponse.fail(ex.getResponseType()));
+    }
+
+    @ResponseBody
     @Override
     protected ResponseEntity<Object> handleBindException(
             BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

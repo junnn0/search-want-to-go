@@ -31,7 +31,7 @@ public class TestDataUtil {
         }
     }
 
-    public static List<Place> createPlaces() {
+    public static List<? extends Place> createPlaces() {
         return Arrays.asList(
                 createKakaoPlace("dup1"),
                 createKakaoPlace("unique1"),
