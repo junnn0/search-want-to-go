@@ -6,11 +6,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ApiService from "@/common/api.service"
-import TokenService from '@/common/token.service'
 import Login from '@/components/Login'
-import StoreConstant from '@/store/constant'
+import {mapGetters} from "vuex";
 
 export default {
   name: 'Home',
@@ -18,22 +15,12 @@ export default {
     Login
   },
   computed: {
-    ...mapGetters(["getUser"]),
+    ...mapGetters(['getToken'])
   },
-  created() {
-    let token = TokenService.getToken();
-    console.log('home:', token)
+  mounted() {
+    let token = this.getToken;
     if (token) {
-      console.log('user:', this.getUser.username)
-      ApiService.setAuthHeader()
-      ApiService.get('/user')
-          .then(({data}) => {
-            console.log('Home', data.header, data.body)
-            if (data.header.isSuccessful) {
-              this.$store.dispatch(StoreConstant.SET_USER, data.body)
-              this.$router.push({name: 'Main'})
-            }
-          })
+      this.$router.push({name: 'Main'})
     }
   }
 }

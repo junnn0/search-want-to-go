@@ -31,7 +31,7 @@ const ApiService = {
 
   setResponseInterceptor() {
     Vue.axios.interceptors.response.use(function (response) {
-      if (response.data.header && !response.data.header.isSuccessful) {
+      if (response.data && !response.data.header.isSuccessful) {
         if (response.data.header.resultCode === 1000) {
           resolveLogin()
           return
@@ -66,20 +66,6 @@ const ApiService = {
 
   post(resource, params) {
     return Vue.axios.post(`${resource}`, params);
-  },
-
-  update(resource, params) {
-    return Vue.axios.put(`${resource}`, params);
-  },
-
-  put(resource, params) {
-    return Vue.axios.put(`${resource}`, params);
-  },
-
-  delete(resource) {
-    return Vue.axios.delete(resource).catch(error => {
-      throw new Error(`[RWV] ApiService ${error}`);
-    });
   }
 };
 

@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import TokenService from '@/common/token.service'
 import ApiService from "@/common/api.service"
+import {mapGetters} from "vuex";
 
 export default {
   name: 'SearchFavorite',
@@ -18,8 +18,11 @@ export default {
       favoriteQueries: []
     }
   },
+  computed: {
+    ...mapGetters(['getToken'])
+  },
   created() {
-    let token = TokenService.getToken();
+    let token = this.getToken;
     if (!token) {
       this.$router.push({name: 'Home'})
     } else {

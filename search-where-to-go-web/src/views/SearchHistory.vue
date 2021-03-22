@@ -9,7 +9,7 @@
 
 <script>
 import ApiService from "@/common/api.service"
-import TokenService from '@/common/token.service'
+import {mapGetters} from "vuex";
 
 export default {
   name: 'SearchHistory',
@@ -20,8 +20,11 @@ export default {
       pageNum: 0
     }
   },
+  computed: {
+    ...mapGetters(['getToken'])
+  },
   created() {
-    const token = TokenService.getToken();
+    const token = this.getToken;
     if (token) {
       ApiService.setAuthHeader()
       ApiService.get(`/v1.0/places/histories?pageSize=${this.pageSize}&pageNum=${this.pageNum}`)
