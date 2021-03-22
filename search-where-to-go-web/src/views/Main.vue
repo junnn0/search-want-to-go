@@ -7,23 +7,27 @@
 </template>
 
 <script>
-import TokenService from '@/common/token.service'
 import Search from '@/components/Search'
+import StoreConstant from '@/store/constant'
+import {mapGetters} from "vuex";
 
 export default {
   name: 'Home',
   components: {
     Search
   },
+  computed: {
+    ...mapGetters(['getToken'])
+  },
   created() {
-    let token = TokenService.getToken();
+    let token = this.getToken;
     if (!token) {
       this.$router.push({name: 'Home'})
     }
   },
   methods: {
     logout() {
-      TokenService.destroyToken()
+      this.$store.dispatch(StoreConstant.LOGOUT)
       this.$router.push({name: 'Home'})
     }
   }

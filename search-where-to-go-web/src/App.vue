@@ -1,18 +1,28 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">{{ $messages['common.home'] }}</router-link> |
-      <router-link to="/join">{{ $messages['common.join'] }}</router-link> |
-      <router-link to="/histories">{{ $messages['common.search.history'] }}</router-link> |
-      <router-link to="/favorites">{{ $messages['common.search.favorite'] }}</router-link>
+      <span v-if="!isAuthenticated">
+        <router-link to="/">{{ $messages['common.home'] }}</router-link> |
+        <router-link to="/join">{{ $messages['common.join'] }}</router-link>
+      </span>
+      <span v-else>
+        <router-link to="/main">{{ $messages['common.home'] }}</router-link> |
+        <router-link to="/histories">{{ $messages['common.search.history'] }}</router-link> |
+        <router-link to="/favorites">{{ $messages['common.search.favorite'] }}</router-link>
+      </span>
     </div>
     <router-view/>
   </div>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    ...mapGetters(["isAuthenticated"])
+  }
 }
 </script>
 
@@ -32,9 +42,5 @@ export default {
 #nav a {
   font-weight: bold;
   color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>
