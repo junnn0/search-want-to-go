@@ -1,6 +1,5 @@
 package com.junyoung.searchwheretogoapi.handler;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -9,7 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
 import com.junyoung.searchwheretogoapi.repository.PlaceSearchCountRepository;
-import com.junyoung.searchwheretogoapi.service.place.SearchCountService;
+import com.junyoung.searchwheretogoapi.service.place.SearchCounter;
 import com.junyoung.searchwheretogoapi.util.TestDataUtil;
 import java.util.Collections;
 import java.util.Optional;
@@ -21,7 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 @SpringBootTest
 class CountUpdateHandlerTest {
 
-    @MockBean private SearchCountService searchCountService;
+    @MockBean private SearchCounter searchCounter;
 
     @MockBean private PlaceSearchCountRepository placeSearchCountRepository;
 
@@ -29,8 +28,7 @@ class CountUpdateHandlerTest {
 
     @Test
     void test_polling_success() {
-        given(searchCountService.getSearchedCounts())
-                .willReturn(TestDataUtil.createSearchCounts(3));
+        given(searchCounter.getSearchedCounts()).willReturn(TestDataUtil.createSearchCounts(3));
         given(placeSearchCountRepository.findById(anyString()))
                 .willReturn(Optional.of(TestDataUtil.createSearchCount()));
 
@@ -45,7 +43,7 @@ class CountUpdateHandlerTest {
     @Test
     void test_polling_nothing() {
         // given
-        given(searchCountService.getSearchedCounts()).willReturn(Collections.emptyList());
+        given(searchCounter.getSearchedCounts()).willReturn(Collections.emptyList());
 
         // when
         countUpdateHandler.poll();

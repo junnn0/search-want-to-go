@@ -8,7 +8,7 @@ import static org.mockito.Mockito.mock;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.junyoung.searchwheretogoapi.model.data.SearchCount;
 import com.junyoung.searchwheretogoapi.repository.PlaceSearchCountRepository;
-import com.junyoung.searchwheretogoapi.service.place.SearchCountService;
+import com.junyoung.searchwheretogoapi.service.place.SearchCounter;
 import com.junyoung.searchwheretogoapi.util.JsonUtil;
 import com.junyoung.searchwheretogoapi.util.TestDataUtil;
 import java.util.Collections;
@@ -20,17 +20,17 @@ import org.springframework.data.domain.Pageable;
 
 class PlaceSearchCountQueryServiceTest {
 
-    private SearchCountService searchCountService;
+    private SearchCounter searchCounter;
     private PlaceSearchCountRepository placeSearchCountRepository;
     private PlaceSearchCountQueryService placeSearchCountQueryService;
 
     @BeforeEach
     void setUp() {
         placeSearchCountRepository = mock(PlaceSearchCountRepository.class);
-        searchCountService = mock(SearchCountService.class);
+        searchCounter = mock(SearchCounter.class);
 
         placeSearchCountQueryService =
-                new PlaceSearchCountQueryService(placeSearchCountRepository, searchCountService);
+                new PlaceSearchCountQueryService(placeSearchCountRepository, searchCounter);
     }
 
     @Test
@@ -43,7 +43,7 @@ class PlaceSearchCountQueryServiceTest {
                         new PageImpl<>(
                                 JsonUtil.convertAs(
                                         searchCounts, new TypeReference<List<SearchCount>>() {})));
-        given(searchCountService.getCounterMapSnapshot())
+        given(searchCounter.getCounterMapSnapshot())
                 .willReturn(
                         Collections.singletonMap(
                                 firstSearchAdder.getQuery(), firstSearchAdder.getCount()));
