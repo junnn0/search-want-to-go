@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtProperties {
   private String secretKey;
-  private int sessionTime;
+  private int sessionSecond;
 
   public void setSecretKey(String secretKey) {
     this.secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));

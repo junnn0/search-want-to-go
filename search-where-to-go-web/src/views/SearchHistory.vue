@@ -28,7 +28,11 @@ export default {
     if (token) {
       ApiService.setAuthHeader()
       ApiService.get(`/v1.0/places/histories?pageSize=${this.pageSize}&pageNum=${this.pageNum}`)
-          .then(({data}) => this.histories = data.body)
+          .then(response => {
+            if (response && response.data.header.isSuccessful) {
+              this.histories = response.data.body
+            }
+          })
     } else {
       this.$router.push({name: 'Home'})
     }

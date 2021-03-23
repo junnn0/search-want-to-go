@@ -1,6 +1,6 @@
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios"
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import TokenService from '@/common/token.service'
 import {loadMessages} from '@/common/i18n'
 
@@ -33,7 +33,7 @@ const ApiService = {
     Vue.axios.interceptors.response.use(function (response) {
       if (response.data && !response.data.header.isSuccessful) {
         if (response.data.header.resultCode === 1000) {
-          resolveLogin()
+          resolveLogout()
           return
         }
 
@@ -44,11 +44,13 @@ const ApiService = {
         return response
       }
     }, function (error) {
-      if (Object.prototype.hasOwnProperty.call(error.config, 'errorHandle') && error.config.errorHandle === false) {
-        return Promise.reject(error)
+      if (error.response && error.response.status) {
+        showErrorMessage(messages[`errors.http.status.${error.response.status}`])
+        resolveLogout()
+        document.location.reload()
+      } else {
+        showErrorMessage(messages['errors.common.network.failure'])
       }
-
-      showErrorMessage(messages['errors.common.network.failure'])
     })
   },
 
@@ -74,8 +76,8 @@ function fetchConfig() {
     .then(response => response.json())
 }
 
-function resolveLogin() {
-  document.location = '/login'
+function resolveLogout() {
+  TokenService.destroyToken()
 }
 
 function showErrorMessage(message) {
