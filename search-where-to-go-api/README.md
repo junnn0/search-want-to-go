@@ -4,18 +4,23 @@
 
 ## 추가 고려사항
 
-### Endpoint에 부하가 매우 커졌을 경우?
+### Endpoint에 부하가 매우 커졌을 경우
 
-
-
-### 동시성 문제?
+### 동시성 문제
 
 인기 키워드 조회 수 변경 시 DB의 부하를 최대한 줄이고 정확성을 제공하기 위해서 캐시를 사용합니다.<br/>
 검색 시 특정 키워드에 대한 조회수를, 메모리 내의 캐시역할을 하는 Map에서 관리하고 주기적으로 해당 캐시에 누산된 값을 DB에 업데이트합니다.<br/>
 인기 키워드 조회 시에는 DB에서 가져온 조회수와 캐시 내의 존재하는 조회수를 합하여 응답합니다.<br/>
 
-현재 캐시는 로컬에서 Map을 사용하고 있지만, 이후 부하가 커지는 경우 외부 In-memory db인 redis를 구축하여 사용하여도 무방합니다.<br/>
-(*인터페이스인 SearchCounter를 구현한 Bean을 변경하여 사용*)
+### 확장성
+
+현재 캐시는 로컬에서 Map을 사용하고 있지만, 이후 부하가 커지는 경우 외부 In-memory db인 redis를 구축하고<br/>
+Redis를 사용하도록 SearchCounter 인터페이스를 구현한 Bean을 생성하여 사용할 수 있도록 설계 및 구현하였습니다.<br/>
+
+### Open API 장애상황 시
+
+장애의 전파를 막기 위해 [Circuit breaker](https://martinfowler.com/bliki/CircuitBreaker.html) 패턴을 적용하였습니다.
+구현체로는 [Spring-Retry](https://github.com/spring-projects/spring-retry) 를 사용하였습니다.
 
 ## Endpoints
 
@@ -192,4 +197,14 @@ Open API 조회 시, 캐시를 적용하고 관리할 CacheManager 로써 사용
 #### Gradle
 ```groovy
 implementation 'net.sf.ehcache:ehcache:2.10.6'
+```
+### [Spring-Retry](https://github.com/spring-projects/spring-retry)
+
+> Spring Retry provides an abstraction around retrying failed operations
+
+Open API 조회 시, 장애 상황을 전파하지 않고 극복하기 위해 Circuit breaker 패턴 구현체로 사용하였습니다.
+
+#### Gradle
+```groovy
+implementation 'org.springframework.retry:spring-retry:1.3.1'
 ```
