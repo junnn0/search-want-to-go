@@ -28,7 +28,11 @@ export default {
     } else {
       ApiService.setAuthHeader()
       ApiService.get('/v1.0/places/favorites')
-          .then(({data}) => this.favoriteQueries = data.body)
+          .then(response => {
+            if (response && response.data.header.isSuccessful) {
+              this.favoriteQueries = response.data.body
+            }
+          })
     }
   }
 }

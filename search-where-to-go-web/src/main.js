@@ -22,9 +22,9 @@ new Vue({
     if (token) {
       ApiService.setAuthHeader()
       ApiService.get('/user')
-        .then(({data}) => {
-          if (data.header.isSuccessful) {
-            this.$store.dispatch(StoreConstant.SET_USER, data.body)
+        .then(response => {
+          if (response && response.data.header.isSuccessful) {
+            this.$store.dispatch(StoreConstant.SET_USER, response.data.body)
             this.$router.push({name: 'Main'})
           }
         })
