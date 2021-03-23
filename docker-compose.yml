@@ -1,0 +1,23 @@
+version: '3'
+services:
+  search-where-to-go-web:
+    depends_on:
+      - search-where-to-go-api
+    build:
+      context: ./search-where-to-go-api
+      dockerfile: Dockerfile
+    ports:
+    - "8080:8080"
+    container_name: search-where-to-go-api
+    volumes:
+    - ./search-where-to-go-api:/opt/search-where-to-go-api
+  search-where-to-go-api:
+    build:
+      context: ./search-where-to-go-web
+      dockerfile: Dockerfile
+    ports:
+    - "8081:8081"
+    container_name: search-where-to-go-web
+    volumes:
+    - ./search-where-to-go-web:/usr/src/app/search-where-to-go-web
+    - /usr/src/app/search-where-to-go-web/node-modules
