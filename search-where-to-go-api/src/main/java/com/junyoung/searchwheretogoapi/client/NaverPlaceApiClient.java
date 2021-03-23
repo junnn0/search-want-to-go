@@ -14,6 +14,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,7 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "openapi.naver", name = "base-url")
 @Component
-public class NaverPlaceApiClient implements PlaceApiClient {
+public class NaverPlaceApiClient extends RetryablePlaceApiClient {
     private static final String AUTH_HEADER_KEY_ID = "X-Naver-Client-Id";
     private static final String AUTH_HEADER_KEY_SECRET = "X-Naver-Client-Secret";
 
@@ -30,16 +32,21 @@ public class NaverPlaceApiClient implements PlaceApiClient {
     private final RestTemplate restTemplate;
 
     @Override
+    @Retryable(
+            value = ExternalApiException.class,
+            recover = FALLBACK_METHOD_NAME,
+            backoff = @Backoff(delay = 2000L))
     public List<? extends Place> getPlaces(String query) {
         log.debug("> getPlaces(query={})", query);
 
         String uri =
                 properties.getBaseUrl()
-                        + UriComponentsBuilder.fromUriString(properties.getApi().get("getPlaces"))
+                        + UriComponentsBuilder.fromUriString(properties.getApi().get("places"))
                                 .buildAndExpand(query);
 
+        SearchListResponse<NaverPlace> response;
         try {
-            SearchListResponse<NaverPlace> response =
+            response =
                     restTemplate
                             .exchange(
                                     uri,
@@ -48,13 +55,15 @@ public class NaverPlaceApiClient implements PlaceApiClient {
                                     new ParameterizedTypeReference<
                                             SearchListResponse<NaverPlace>>() {})
                             .getBody();
-            if (response != null) {
-                return response.get();
-            } else {
-                return Collections.emptyList();
-            }
         } catch (Exception ex) {
-            throw new ExternalApiException();
+            throw new ExternalApiException(ex);
+        }
+
+        if (response != null) {
+            return response.get();
+        } else {
+            log.warn("> external api(Naver) returns empty response.");
+            return Collections.emptyList();
         }
     }
 

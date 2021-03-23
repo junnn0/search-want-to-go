@@ -28,24 +28,18 @@ openapi:
     base-url: https://dapi.kakao.com
     api-key: 33bb2e315b4d38c5d9064467fb7fd588
     api:
-      getPlaces: /v2/local/search/keyword.json?size=5&query={query}
+      places: /v2/local/search/keyword.json?size=5&query={query}
   naver:
     base-url: https://openapi.naver.com
     client-id: wc06jc76Yu6F_i17eWKc
     client-secret: H4FUKuZIHy
     api:
-      getPlaces: /v1/search/local.json?display=5&query={query}
+      places: /v1/search/local.json?display=5&query={query}
 
 ---
 
-spring:
-  config:
-    activate:
-      on-profile: dev
+spring.config.activate.on-profile: dev
 
 ---
 
-spring:
-  config:
-    activate:
-      on-profile: prod
+spring.config.activate.on-profile: prod
