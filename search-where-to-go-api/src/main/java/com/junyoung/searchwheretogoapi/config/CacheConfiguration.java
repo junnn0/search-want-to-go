@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Profile;
 @EnableCaching
 @Configuration
 public class CacheConfiguration {
-    @Bean
-    public CacheManager cacheManager() {
-        return new EhCacheCacheManager();
-    }
+  @Bean
+  public CacheManager cacheManager() {
+    return new EhCacheCacheManager();
+  }
 }

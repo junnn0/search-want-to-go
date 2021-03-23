@@ -13,27 +13,27 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KakaoPlace implements Place {
-    @JsonProperty("address_name")
-    private String addressName;
+  @JsonProperty("address_name")
+  private String addressName;
 
-    @JsonProperty("category_name")
-    private String categoryName;
+  @JsonProperty("category_name")
+  private String categoryName;
 
-    private String id;
+  private String id;
 
-    private String phone;
+  private String phone;
 
-    @JsonProperty("place_name")
-    private String placeName;
+  @JsonProperty("place_name")
+  private String placeName;
 
-    @JsonProperty("place_url")
-    private String placeUrl;
+  @JsonProperty("place_url")
+  private String placeUrl;
 
-    @JsonProperty("road_address_name")
-    private String roadAddressName;
+  @JsonProperty("road_address_name")
+  private String roadAddressName;
 
-    @Override
-    public PlaceData toPlaceData() {
-        return new PlaceData(placeName, roadAddressName, phone, placeUrl);
-    }
+  @Override
+  public PlaceData toPlaceData() {
+    return new PlaceData(placeName, roadAddressName, phone, placeUrl);
+  }
 }

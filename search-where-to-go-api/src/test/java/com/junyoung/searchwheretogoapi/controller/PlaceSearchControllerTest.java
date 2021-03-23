@@ -22,37 +22,36 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 class PlaceSearchControllerTest {
 
-    @Autowired private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @MockBean private PlaceSearchService placeSearchService;
+  @MockBean private PlaceSearchService placeSearchService;
 
-    @BeforeEach
-    void setUp() {
-        given(placeSearchService.getPlaces(anyString()))
-                .willReturn(TestDataUtil.createPlaceData(10));
+  @BeforeEach
+  void setUp() {
+    given(placeSearchService.getPlaces(anyString())).willReturn(TestDataUtil.createPlaceData(10));
 
-        SecurityContextHolder.getContext().setAuthentication(TestDataUtil.createAuthToken());
-    }
+    SecurityContextHolder.getContext().setAuthentication(TestDataUtil.createAuthToken());
+  }
 
-    @Test
-    void test_search_places_success() throws Exception {
-        mockMvc.perform(
-                        get("/v1.0/places?query=%EA%B3%B1%EC%B0%BD")
-                                .header(HttpHeaders.AUTHORIZATION, TestDataUtil.createToken()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.header.isSuccessful").value(true))
-                .andExpect(jsonPath("$.header.resultMessage").value("SUCCESS"));
-    }
+  @Test
+  void test_search_places_success() throws Exception {
+    mockMvc
+        .perform(
+            get("/v1.0/places?query=%EA%B3%B1%EC%B0%BD")
+                .header(HttpHeaders.AUTHORIZATION, TestDataUtil.createToken()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.header.isSuccessful").value(true))
+        .andExpect(jsonPath("$.header.resultMessage").value("SUCCESS"));
+  }
 
-    @Test
-    void test_search_places_empty_query() throws Exception {
-        mockMvc.perform(
-                        get("/v1.0/places")
-                                .header(HttpHeaders.AUTHORIZATION, TestDataUtil.createToken()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.header.isSuccessful").value(false))
-                .andExpect(
-                        jsonPath("$.header.resultMessage")
-                                .value("Request 'query' is invalid in value with 'null'"));
-    }
+  @Test
+  void test_search_places_empty_query() throws Exception {
+    mockMvc
+        .perform(get("/v1.0/places").header(HttpHeaders.AUTHORIZATION, TestDataUtil.createToken()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.header.isSuccessful").value(false))
+        .andExpect(
+            jsonPath("$.header.resultMessage")
+                .value("Request 'query' is invalid in value with 'null'"));
+  }
 }

@@ -17,7 +17,7 @@ configurations {
 
 spotless {
     java {
-        googleJavaFormat('1.8').aosp()
+        googleJavaFormat('1.8')
     }
 }
 

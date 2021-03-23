@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 public class SearchWhereToGoApiApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(SearchWhereToGoApiApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(SearchWhereToGoApiApplication.class, args);
+  }
 }

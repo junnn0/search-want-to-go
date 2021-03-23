@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "openapi.kakao")
 @Component
 public class KakaoApiProperties {
-    private String baseUrl;
-    private String apiKey;
-    private Map<String, String> api;
+  private String baseUrl;
+  private String apiKey;
+  private Map<String, String> api;
 }

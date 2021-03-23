@@ -19,28 +19,28 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 @SpringBootTest
 class UserServiceTest {
 
-    @MockBean private EncryptService encryptService;
+  @MockBean private EncryptService encryptService;
 
-    @MockBean private UserRepository userRepository;
+  @MockBean private UserRepository userRepository;
 
-    @Autowired private UserService userService;
+  @Autowired private UserService userService;
 
-    @BeforeEach
-    void setUp() {
-        given(userRepository.findByUsername(anyString())).willReturn(null);
-        given(encryptService.encryptPassword(anyString())).willReturn("encrypted_password");
-        given(userRepository.save(any()))
-                .willAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
-    }
+  @BeforeEach
+  void setUp() {
+    given(userRepository.findByUsername(anyString())).willReturn(null);
+    given(encryptService.encryptPassword(anyString())).willReturn("encrypted_password");
+    given(userRepository.save(any()))
+        .willAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
+  }
 
-    @Test
-    void test_create_user_success() {
-        UserParam userParam = new UserParam();
-        String username = TestDataUtil.faker.name().fullName();
-        userParam.setUsername(username);
-        userParam.setPassword(TestDataUtil.createToken());
+  @Test
+  void test_create_user_success() {
+    UserParam userParam = new UserParam();
+    String username = TestDataUtil.faker.name().fullName();
+    userParam.setUsername(username);
+    userParam.setPassword(TestDataUtil.createToken());
 
-        User createdUser = userService.createUser(userParam);
-        assertEquals(username, createdUser.getUsername());
-    }
+    User createdUser = userService.createUser(userParam);
+    assertEquals(username, createdUser.getUsername());
+  }
 }

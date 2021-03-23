@@ -26,64 +26,63 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @SpringBootTest
 class JwtTokenFilterTest {
 
-    @MockBean private UserRepository userRepository;
+  @MockBean private UserRepository userRepository;
 
-    @MockBean private JwtService jwtService;
+  @MockBean private JwtService jwtService;
 
-    @Autowired private JwtTokenFilter jwtTokenFilter;
+  @Autowired private JwtTokenFilter jwtTokenFilter;
 
-    private MockHttpServletRequest request;
-    private MockHttpServletResponse response;
-    private MockFilterChain filterChain;
+  private MockHttpServletRequest request;
+  private MockHttpServletResponse response;
+  private MockFilterChain filterChain;
 
-    @BeforeEach
-    void setUp() {
-        SecurityContextHolder.getContext().setAuthentication(null);
+  @BeforeEach
+  void setUp() {
+    SecurityContextHolder.getContext().setAuthentication(null);
 
-        given(jwtService.getUserIdFromToken(anyString()))
-                .willReturn(Optional.of(TestDataUtil.createToken()));
-        given(userRepository.findById(anyString()))
-                .willReturn(Optional.of(TestDataUtil.createUser()));
+    given(jwtService.getUserIdFromToken(anyString()))
+        .willReturn(Optional.of(TestDataUtil.createToken()));
+    given(userRepository.findById(anyString())).willReturn(Optional.of(TestDataUtil.createUser()));
 
-        request = new MockHttpServletRequest();
-        response = new MockHttpServletResponse();
-        filterChain = new MockFilterChain();
-    }
+    request = new MockHttpServletRequest();
+    response = new MockHttpServletResponse();
+    filterChain = new MockFilterChain();
+  }
 
-    @Test
-    void test_authenticated_user_filtering() throws ServletException, IOException {
-        request.addHeader(HttpHeaders.AUTHORIZATION, TestDataUtil.createToken());
+  @Test
+  void test_authenticated_user_filtering() throws ServletException, IOException {
+    request.addHeader(HttpHeaders.AUTHORIZATION, TestDataUtil.createToken());
 
-        jwtTokenFilter.doFilterInternal(request, response, filterChain);
+    jwtTokenFilter.doFilterInternal(request, response, filterChain);
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                (UsernamePasswordAuthenticationToken)
-                        SecurityContextHolder.getContext().getAuthentication();
+    UsernamePasswordAuthenticationToken authenticationToken =
+        (UsernamePasswordAuthenticationToken)
+            SecurityContextHolder.getContext().getAuthentication();
 
-        assertTrue(authenticationToken.getPrincipal() instanceof User);
-    }
+    assertTrue(authenticationToken.getPrincipal() instanceof User);
+  }
 
-    @Test
-    void test_unauthorized_user_empty_auth_header() throws ServletException, IOException {
-        jwtTokenFilter.doFilterInternal(request, response, filterChain);
+  @Test
+  void test_unauthorized_user_empty_auth_header() throws ServletException, IOException {
+    jwtTokenFilter.doFilterInternal(request, response, filterChain);
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                (UsernamePasswordAuthenticationToken)
-                        SecurityContextHolder.getContext().getAuthentication();
+    UsernamePasswordAuthenticationToken authenticationToken =
+        (UsernamePasswordAuthenticationToken)
+            SecurityContextHolder.getContext().getAuthentication();
 
-        assertNull(authenticationToken);
-    }
+    assertNull(authenticationToken);
+  }
 
-    @Test
-    void test_unauthorized_user_wrong_token() throws ServletException, IOException {
-        request.addHeader(HttpHeaders.AUTHORIZATION, "wrong_token");
+  @Test
+  void test_unauthorized_user_wrong_token() throws ServletException, IOException {
+    request.addHeader(HttpHeaders.AUTHORIZATION, "wrong_token");
 
-        jwtTokenFilter.doFilterInternal(request, response, filterChain);
+    jwtTokenFilter.doFilterInternal(request, response, filterChain);
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                (UsernamePasswordAuthenticationToken)
-                        SecurityContextHolder.getContext().getAuthentication();
+    UsernamePasswordAuthenticationToken authenticationToken =
+        (UsernamePasswordAuthenticationToken)
+            SecurityContextHolder.getContext().getAuthentication();
 
-        assertNull(authenticationToken);
-    }
+    assertNull(authenticationToken);
+  }
 }

@@ -7,10 +7,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class QueryParam {
-    @NotBlank(message = "should be exists.")
-    private String query;
+  @NotBlank(message = "should be exists.")
+  private String query;
 
-    public String getQuery() {
-        return query.trim();
-    }
+  public String getQuery() {
+    return query.trim();
+  }
 }

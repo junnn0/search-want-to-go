@@ -14,19 +14,19 @@ import lombok.NoArgsConstructor;
 @Table(indexes = @Index(name = "idx_user_username", columnList = "username"))
 @Entity
 public class User {
-    @Id
-    @Column(length = 50, nullable = false, unique = true)
-    private String userId;
+  @Id
+  @Column(length = 50, nullable = false, unique = true)
+  private String userId;
 
-    @Column(length = 50, nullable = false)
-    private String username;
+  @Column(length = 50, nullable = false)
+  private String username;
 
-    @Column(length = 100, nullable = false)
-    private String password;
+  @Column(length = 100, nullable = false)
+  private String password;
 
-    public User(String username, String password) {
-        this.userId = UUID.randomUUID().toString();
-        this.username = username;
-        this.password = password;
-    }
+  public User(String username, String password) {
+    this.userId = UUID.randomUUID().toString();
+    this.username = username;
+    this.password = password;
+  }
 }

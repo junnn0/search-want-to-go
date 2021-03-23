@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlaceSearchHistoryQueryRepository
-        extends JpaRepository<PlaceSearchHistory, String> {
-    List<PlaceSearchHistory> findByUserIdOrderByHistoryIdDesc(String userId, Pageable pageable);
+    extends JpaRepository<PlaceSearchHistory, String> {
+  List<PlaceSearchHistory> findByUserIdOrderByHistoryIdDesc(String userId, Pageable pageable);
 }

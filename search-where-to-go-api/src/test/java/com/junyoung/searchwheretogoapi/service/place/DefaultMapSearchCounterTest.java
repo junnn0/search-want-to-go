@@ -15,53 +15,53 @@ import org.springframework.util.CollectionUtils;
 @SpringBootTest
 class DefaultMapSearchCounterTest {
 
-    @Autowired private DefaultMapSearchCounter defaultMapSearchCounter;
+  @Autowired private DefaultMapSearchCounter defaultMapSearchCounter;
 
-    @BeforeEach
-    void setUp() {
-        defaultMapSearchCounter.clearCounter();
-    }
+  @BeforeEach
+  void setUp() {
+    defaultMapSearchCounter.clearCounter();
+  }
 
-    @Test
-    void test_count_correct_unique_query() {
-        defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
-        defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
-        defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
+  @Test
+  void test_count_correct_unique_query() {
+    defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
+    defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
+    defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
 
-        List<SearchCount> searchCounts = defaultMapSearchCounter.getSearchedCounts();
-        assertFalse(CollectionUtils.isEmpty(searchCounts));
-        assertEquals(3, searchCounts.size());
-    }
+    List<SearchCount> searchCounts = defaultMapSearchCounter.getSearchedCounts();
+    assertFalse(CollectionUtils.isEmpty(searchCounts));
+    assertEquals(3, searchCounts.size());
+  }
 
-    @Test
-    void test_count_correct_duplicated_query() {
-        defaultMapSearchCounter.count("a");
-        defaultMapSearchCounter.count("a");
-        defaultMapSearchCounter.count("a");
+  @Test
+  void test_count_correct_duplicated_query() {
+    defaultMapSearchCounter.count("a");
+    defaultMapSearchCounter.count("a");
+    defaultMapSearchCounter.count("a");
 
-        List<SearchCount> searchCounts = defaultMapSearchCounter.getSearchedCounts();
-        assertFalse(CollectionUtils.isEmpty(searchCounts));
-        assertEquals(1, searchCounts.size());
-    }
+    List<SearchCount> searchCounts = defaultMapSearchCounter.getSearchedCounts();
+    assertFalse(CollectionUtils.isEmpty(searchCounts));
+    assertEquals(1, searchCounts.size());
+  }
 
-    @Test
-    void test_count_clear_success() {
-        defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
-        defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
-        defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
-        defaultMapSearchCounter.clearCounter();
+  @Test
+  void test_count_clear_success() {
+    defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
+    defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
+    defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
+    defaultMapSearchCounter.clearCounter();
 
-        List<SearchCount> searchCounts = defaultMapSearchCounter.getSearchedCounts();
-        assertTrue(CollectionUtils.isEmpty(searchCounts));
-    }
+    List<SearchCount> searchCounts = defaultMapSearchCounter.getSearchedCounts();
+    assertTrue(CollectionUtils.isEmpty(searchCounts));
+  }
 
-    @Test
-    void test_deep_copy() {
-        Map<String, Long> counterMapSnapshot = defaultMapSearchCounter.getCounterMapSnapshot();
-        defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
-        defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
-        defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
+  @Test
+  void test_deep_copy() {
+    Map<String, Long> counterMapSnapshot = defaultMapSearchCounter.getCounterMapSnapshot();
+    defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
+    defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
+    defaultMapSearchCounter.count(TestDataUtil.faker.name().fullName());
 
-        assertTrue(counterMapSnapshot.isEmpty());
-    }
+    assertTrue(counterMapSnapshot.isEmpty());
+  }
 }

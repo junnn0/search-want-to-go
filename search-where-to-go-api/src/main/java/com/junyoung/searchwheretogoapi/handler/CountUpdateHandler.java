@@ -13,24 +13,24 @@ import org.springframework.util.CollectionUtils;
 @Component
 public class CountUpdateHandler {
 
-    private final SearchCounter searchCounter;
-    private final PlaceSearchCountRepository placeSearchCountRepository;
+  private final SearchCounter searchCounter;
+  private final PlaceSearchCountRepository placeSearchCountRepository;
 
-    @Scheduled(fixedDelayString = "${count.update.interval:1000}")
-    public void poll() {
-        List<SearchCount> searchCounts = searchCounter.getSearchedCounts();
-        if (!CollectionUtils.isEmpty(searchCounts)) {
-            searchCounts.forEach(
-                    searchCount -> {
-                        long previousCount =
-                                placeSearchCountRepository
-                                        .findById(searchCount.getQuery())
-                                        .map(SearchCount::getCount)
-                                        .orElse(0L);
-                        searchCount.addCount(previousCount);
-                        placeSearchCountRepository.save(searchCount);
-                    });
-            searchCounter.clearCounter();
-        }
+  @Scheduled(fixedDelayString = "${count.update.interval:1000}")
+  public void poll() {
+    List<SearchCount> searchCounts = searchCounter.getSearchedCounts();
+    if (!CollectionUtils.isEmpty(searchCounts)) {
+      searchCounts.forEach(
+          searchCount -> {
+            long previousCount =
+                placeSearchCountRepository
+                    .findById(searchCount.getQuery())
+                    .map(SearchCount::getCount)
+                    .orElse(0L);
+            searchCount.addCount(previousCount);
+            placeSearchCountRepository.save(searchCount);
+          });
+      searchCounter.clearCounter();
     }
+  }
 }

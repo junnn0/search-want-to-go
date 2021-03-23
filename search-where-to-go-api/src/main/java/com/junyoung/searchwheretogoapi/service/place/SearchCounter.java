@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface SearchCounter {
-    void count(String query);
+  void count(String query);
 
-    List<SearchCount> getSearchedCounts();
+  List<SearchCount> getSearchedCounts();
 
-    Map<String, Long> getCounterMapSnapshot();
+  Map<String, Long> getCounterMapSnapshot();
 
-    void clearCounter();
+  void clearCounter();
 }

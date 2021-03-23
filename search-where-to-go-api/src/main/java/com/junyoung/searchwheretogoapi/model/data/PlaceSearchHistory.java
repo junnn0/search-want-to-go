@@ -18,22 +18,22 @@ import lombok.Setter;
 @Table(indexes = @Index(name = "idx_place_search_history_user_id", columnList = "userId"))
 @Entity
 public class PlaceSearchHistory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int historyId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private int historyId;
 
-    @Column(length = 300, nullable = false)
-    private String query;
+  @Column(length = 300, nullable = false)
+  private String query;
 
-    @Column(length = 50, nullable = false)
-    private String userId;
+  @Column(length = 50, nullable = false)
+  private String userId;
 
-    @Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createDatetime;
+  @Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
+  private LocalDateTime createDatetime;
 
-    public PlaceSearchHistory(String query, String userId) {
-        this.query = query;
-        this.userId = userId;
-        this.createDatetime = LocalDateTime.now();
-    }
+  public PlaceSearchHistory(String query, String userId) {
+    this.query = query;
+    this.userId = userId;
+    this.createDatetime = LocalDateTime.now();
+  }
 }

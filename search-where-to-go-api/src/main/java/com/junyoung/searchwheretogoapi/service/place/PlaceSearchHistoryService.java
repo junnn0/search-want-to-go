@@ -9,12 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class PlaceSearchHistoryService {
-    private final PlaceSearchHistoryRepository placeSearchHistoryRepository;
-    private final SearchCounter searchCounter;
+  private final PlaceSearchHistoryRepository placeSearchHistoryRepository;
+  private final SearchCounter searchCounter;
 
-    @Transactional
-    public void save(PlaceSearchHistory placeSearchHistory) {
-        searchCounter.count(placeSearchHistory.getQuery());
-        placeSearchHistoryRepository.save(placeSearchHistory);
-    }
+  @Transactional
+  public void save(PlaceSearchHistory placeSearchHistory) {
+    searchCounter.count(placeSearchHistory.getQuery());
+    placeSearchHistoryRepository.save(placeSearchHistory);
+  }
 }

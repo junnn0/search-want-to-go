@@ -16,29 +16,27 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
 
-    private final EncryptService encryptService;
-    private final UserRepository userRepository;
+  private final EncryptService encryptService;
+  private final UserRepository userRepository;
 
-    @Transactional
-    public User createUser(UserParam userParam) {
-        log.debug("> createUser(userParam={})", userParam);
-        User foundUser = userRepository.findByUsername(userParam.getUsername());
-        if (foundUser != null) {
-            throw new UserAuthenticationException(ResponseType.ALREADY_EXISTS_USER);
-        }
-        User user =
-                new User(
-                        userParam.getUsername(),
-                        encryptService.encryptPassword(userParam.getPassword()));
-        return userRepository.save(user);
+  @Transactional
+  public User createUser(UserParam userParam) {
+    log.debug("> createUser(userParam={})", userParam);
+    User foundUser = userRepository.findByUsername(userParam.getUsername());
+    if (foundUser != null) {
+      throw new UserAuthenticationException(ResponseType.ALREADY_EXISTS_USER);
     }
+    User user =
+        new User(userParam.getUsername(), encryptService.encryptPassword(userParam.getPassword()));
+    return userRepository.save(user);
+  }
 
-    public User findByUsername(String username) {
-        log.debug("> findByUsername(username={})", username);
-        return userRepository.findByUsername(username);
-    }
+  public User findByUsername(String username) {
+    log.debug("> findByUsername(username={})", username);
+    return userRepository.findByUsername(username);
+  }
 
-    public boolean isCorrectPassword(String requestedPassword, User user) {
-        return encryptService.checkPassword(user.getPassword(), requestedPassword);
-    }
+  public boolean isCorrectPassword(String requestedPassword, User user) {
+    return encryptService.checkPassword(user.getPassword(), requestedPassword);
+  }
 }

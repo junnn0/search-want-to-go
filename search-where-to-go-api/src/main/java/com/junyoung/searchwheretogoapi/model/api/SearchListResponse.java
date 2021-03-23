@@ -12,11 +12,11 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class SearchListResponse<T> implements Searchable<T> {
-    @JsonAlias({"documents", "items"})
-    private List<T> data;
+  @JsonAlias({"documents", "items"})
+  private List<T> data;
 
-    @Override
-    public List<T> get() {
-        return data;
-    }
+  @Override
+  public List<T> get() {
+    return data;
+  }
 }

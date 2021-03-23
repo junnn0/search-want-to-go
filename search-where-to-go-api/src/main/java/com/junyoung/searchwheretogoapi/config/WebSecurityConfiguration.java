@@ -18,44 +18,44 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Value("${spring.h2.console.enabled}")
-    private String h2Enabled;
+  @Value("${spring.h2.console.enabled}")
+  private String h2Enabled;
 
-    private final JwtTokenFilter jwtTokenFilter;
+  private final JwtTokenFilter jwtTokenFilter;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
 
-        if (h2Enabled.equalsIgnoreCase("true")) {
-            http.authorizeRequests()
-                    .antMatchers("/h2-console", "/h2-console/**")
-                    .permitAll()
-                    .and()
-                    .headers()
-                    .frameOptions()
-                    .sameOrigin();
-        }
-
-        http.csrf()
-                .disable()
-                .cors()
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS)
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/login", "/user", "/actuator/metrics/**")
-                .permitAll()
-                .antMatchers(HttpMethod.POST, "/users", "/users/login")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
-
-        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    if (h2Enabled.equalsIgnoreCase("true")) {
+      http.authorizeRequests()
+          .antMatchers("/h2-console", "/h2-console/**")
+          .permitAll()
+          .and()
+          .headers()
+          .frameOptions()
+          .sameOrigin();
     }
+
+    http.csrf()
+        .disable()
+        .cors()
+        .and()
+        .exceptionHandling()
+        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeRequests()
+        .antMatchers(HttpMethod.OPTIONS)
+        .permitAll()
+        .antMatchers(HttpMethod.GET, "/login", "/user", "/actuator/metrics/**")
+        .permitAll()
+        .antMatchers(HttpMethod.POST, "/users", "/users/login")
+        .permitAll()
+        .anyRequest()
+        .authenticated();
+
+    http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+  }
 }

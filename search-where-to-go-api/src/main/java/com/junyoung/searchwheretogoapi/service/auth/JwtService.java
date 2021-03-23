@@ -4,7 +4,7 @@ import com.junyoung.searchwheretogoapi.model.data.User;
 import java.util.Optional;
 
 public interface JwtService {
-    String toToken(User user);
+  String toToken(User user);
 
-    Optional<String> getUserIdFromToken(String token);
+  Optional<String> getUserIdFromToken(String token);
 }

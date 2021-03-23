@@ -20,24 +20,25 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 class FavoritePlaceControllerTest {
 
-    @Autowired private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @MockBean private PlaceSearchCountQueryService placeSearchCountQueryService;
+  @MockBean private PlaceSearchCountQueryService placeSearchCountQueryService;
 
-    @BeforeEach
-    void setUp() {
-        given(placeSearchCountQueryService.getTopSearchedCounts())
-                .willReturn(TestDataUtil.createSearchCounts(10));
-    }
+  @BeforeEach
+  void setUp() {
+    given(placeSearchCountQueryService.getTopSearchedCounts())
+        .willReturn(TestDataUtil.createSearchCounts(10));
+  }
 
-    @Test
-    void test_search_favorite_place_success() throws Exception {
-        mockMvc.perform(
-                        get("/v1.0/places/favorites")
-                                .header(HttpHeaders.AUTHORIZATION, TestDataUtil.createToken()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.header.isSuccessful").value(true))
-                .andExpect(jsonPath("$.header.resultMessage").value("SUCCESS"))
-                .andExpect(jsonPath("$.body").isArray());
-    }
+  @Test
+  void test_search_favorite_place_success() throws Exception {
+    mockMvc
+        .perform(
+            get("/v1.0/places/favorites")
+                .header(HttpHeaders.AUTHORIZATION, TestDataUtil.createToken()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.header.isSuccessful").value(true))
+        .andExpect(jsonPath("$.header.resultMessage").value("SUCCESS"))
+        .andExpect(jsonPath("$.body").isArray());
+  }
 }

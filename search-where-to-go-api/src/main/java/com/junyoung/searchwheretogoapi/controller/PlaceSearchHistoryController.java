@@ -21,16 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1.0")
 public class PlaceSearchHistoryController {
-    private final PlaceSearchHistoryQueryService placeSearchHistoryQueryService;
+  private final PlaceSearchHistoryQueryService placeSearchHistoryQueryService;
 
-    @GetMapping("/places/histories")
-    public ApiResponse<List<PlaceSearchHistory>> getPlaceSearchHistories(
-            @AuthenticationPrincipal User user, @Valid PageParam pageParam) {
-        log.debug("> getPlaceSearchHistories(user={}, pageParam={})", user, pageParam);
-        if (user == null) {
-            throw new UserAuthenticationException(ResponseType.NOT_LOGIN_USER);
-        }
-        return ApiResponse.success(
-                placeSearchHistoryQueryService.getPlaceSearchHistories(user, pageParam));
+  @GetMapping("/places/histories")
+  public ApiResponse<List<PlaceSearchHistory>> getPlaceSearchHistories(
+      @AuthenticationPrincipal User user, @Valid PageParam pageParam) {
+    log.debug("> getPlaceSearchHistories(user={}, pageParam={})", user, pageParam);
+    if (user == null) {
+      throw new UserAuthenticationException(ResponseType.NOT_LOGIN_USER);
     }
+    return ApiResponse.success(
+        placeSearchHistoryQueryService.getPlaceSearchHistories(user, pageParam));
+  }
 }

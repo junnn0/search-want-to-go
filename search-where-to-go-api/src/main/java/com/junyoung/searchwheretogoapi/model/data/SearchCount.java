@@ -17,12 +17,12 @@ import lombok.Setter;
 @Entity
 @Table(indexes = @Index(name = "idx_column_count", columnList = "count DESC"))
 public class SearchCount {
-    @Id private String query;
+  @Id private String query;
 
-    @Column(nullable = false)
-    private long count;
+  @Column(nullable = false)
+  private long count;
 
-    public void addCount(long count) {
-        this.count += count;
-    }
+  public void addCount(long count) {
+    this.count += count;
+  }
 }
