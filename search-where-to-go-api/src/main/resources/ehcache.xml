@@ -6,12 +6,12 @@
 
     <defaultCache
             maxElementsInMemory="10000"
-            timeToIdleSeconds="3600"
-            timeToLiveSeconds="3600"
+            timeToIdleSeconds="300"
+            timeToLiveSeconds="300"
             overflowToDisk="true"
-            maxElementsOnDisk="10000000"
+            maxElementsOnDisk="1000000"
             diskPersistent="false"
-            memoryStoreEvictionPolicy="LRU"
+            memoryStoreEvictionPolicy="LFU"
     />
 
     <cache name="getPlaces"
@@ -19,7 +19,7 @@
            maxEntriesLocalDisk="20000"
            diskSpoolBufferSizeMB="20"
            timeToIdleSeconds="300"
-           timeToLiveSeconds="600"
+           timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LFU">
         <persistence strategy="localTempSwap"/>
     </cache>

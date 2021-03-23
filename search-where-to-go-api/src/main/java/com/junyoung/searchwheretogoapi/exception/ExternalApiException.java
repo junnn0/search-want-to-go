@@ -7,7 +7,7 @@ import lombok.Getter;
 public class ExternalApiException extends RuntimeException {
     private final ResponseType responseType = ResponseType.EXTERNAL_API_ERROR;
 
-    public ExternalApiException() {
-        super(ResponseType.EXTERNAL_API_ERROR.getMessage());
+    public ExternalApiException(Throwable throwable) {
+        super(ResponseType.EXTERNAL_API_ERROR.getMessage(), throwable);
     }
 }
