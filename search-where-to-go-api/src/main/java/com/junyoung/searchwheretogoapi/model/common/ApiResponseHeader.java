@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiResponseHeader {
-    private Boolean isSuccessful;
-    private int resultCode;
-    private String resultMessage;
+  private Boolean isSuccessful;
+  private int resultCode;
+  private String resultMessage;
 }

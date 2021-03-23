@@ -15,29 +15,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class DefaultJwtService implements JwtService {
 
-    private final JwtProperties jwtProperties;
+  private final JwtProperties jwtProperties;
 
-    @Override
-    public String toToken(User user) {
-        return Jwts.builder()
-                .setSubject(user.getUserId())
-                .setExpiration(expireTimeFromNow())
-                .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecretKey())
-                .compact();
-    }
+  @Override
+  public String toToken(User user) {
+    return Jwts.builder()
+        .setSubject(user.getUserId())
+        .setExpiration(expireTimeFromNow())
+        .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecretKey())
+        .compact();
+  }
 
-    @Override
-    public Optional<String> getUserIdFromToken(String token) {
-        try {
-            Jws<Claims> claimsJws =
-                    Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token);
-            return Optional.ofNullable(claimsJws.getBody().getSubject());
-        } catch (Exception e) {
-            return Optional.empty();
-        }
+  @Override
+  public Optional<String> getUserIdFromToken(String token) {
+    try {
+      Jws<Claims> claimsJws =
+          Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token);
+      return Optional.ofNullable(claimsJws.getBody().getSubject());
+    } catch (Exception e) {
+      return Optional.empty();
     }
+  }
 
-    private Date expireTimeFromNow() {
-        return new Date(System.currentTimeMillis() + jwtProperties.getSessionTime() * 1000L);
-    }
+  private Date expireTimeFromNow() {
+    return new Date(System.currentTimeMillis() + jwtProperties.getSessionTime() * 1000L);
+  }
 }

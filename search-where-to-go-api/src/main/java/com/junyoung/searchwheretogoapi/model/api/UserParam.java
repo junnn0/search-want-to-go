@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserParam {
-    @NotBlank(message = "should be exists.")
-    private String username;
+  @NotBlank(message = "should be exists.")
+  private String username;
 
-    @NotBlank(message = "should be exists.")
-    private String password;
+  @NotBlank(message = "should be exists.")
+  private String password;
 }

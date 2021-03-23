@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1.0")
 public class FavoritePlaceController {
 
-    private final PlaceSearchCountQueryService placeSearchCountQueryService;
+  private final PlaceSearchCountQueryService placeSearchCountQueryService;
 
-    @GetMapping("/places/favorites")
-    public ApiResponse<List<SearchCount>> searchFavoritePlaces() {
-        return ApiResponse.success(placeSearchCountQueryService.getTopSearchedCounts());
-    }
+  @GetMapping("/places/favorites")
+  public ApiResponse<List<SearchCount>> searchFavoritePlaces() {
+    return ApiResponse.success(placeSearchCountQueryService.getTopSearchedCounts());
+  }
 }

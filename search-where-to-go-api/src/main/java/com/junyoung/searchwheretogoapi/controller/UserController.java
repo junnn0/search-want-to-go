@@ -20,31 +20,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    private final UserService userService;
-    private final JwtService jwtService;
+  private final UserService userService;
+  private final JwtService jwtService;
 
-    @GetMapping("/user")
-    public ApiResponse<UserWithToken> getUser(@AuthenticationPrincipal User user) {
-        if (user == null) {
-            throw new UserAuthenticationException(ResponseType.NOT_LOGIN_USER);
-        }
-        User currentUser = userService.findByUsername(user.getUsername());
-        return ApiResponse.success(new UserWithToken(currentUser, jwtService.toToken(currentUser)));
+  @GetMapping("/user")
+  public ApiResponse<UserWithToken> getUser(@AuthenticationPrincipal User user) {
+    if (user == null) {
+      throw new UserAuthenticationException(ResponseType.NOT_LOGIN_USER);
     }
+    User currentUser = userService.findByUsername(user.getUsername());
+    return ApiResponse.success(new UserWithToken(currentUser, jwtService.toToken(currentUser)));
+  }
 
-    @PostMapping("/users")
-    public ApiResponse<UserWithToken> createUser(@Valid @RequestBody UserParam userParam) {
-        User createdUser = userService.createUser(userParam);
-        return ApiResponse.success(new UserWithToken(createdUser, jwtService.toToken(createdUser)));
-    }
+  @PostMapping("/users")
+  public ApiResponse<UserWithToken> createUser(@Valid @RequestBody UserParam userParam) {
+    User createdUser = userService.createUser(userParam);
+    return ApiResponse.success(new UserWithToken(createdUser, jwtService.toToken(createdUser)));
+  }
 
-    @PostMapping("/users/login")
-    public ApiResponse<UserWithToken> loginUser(@Valid @RequestBody UserParam userParam) {
-        User user = userService.findByUsername(userParam.getUsername());
-        if (user != null && userService.isCorrectPassword(userParam.getPassword(), user)) {
-            return ApiResponse.success(new UserWithToken(user, jwtService.toToken(user)));
-        } else {
-            throw new UserAuthenticationException(ResponseType.NOT_EXISTS_USER);
-        }
+  @PostMapping("/users/login")
+  public ApiResponse<UserWithToken> loginUser(@Valid @RequestBody UserParam userParam) {
+    User user = userService.findByUsername(userParam.getUsername());
+    if (user != null && userService.isCorrectPassword(userParam.getPassword(), user)) {
+      return ApiResponse.success(new UserWithToken(user, jwtService.toToken(user)));
+    } else {
+      throw new UserAuthenticationException(ResponseType.NOT_EXISTS_USER);
     }
+  }
 }

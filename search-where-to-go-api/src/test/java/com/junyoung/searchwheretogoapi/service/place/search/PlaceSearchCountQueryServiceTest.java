@@ -20,37 +20,35 @@ import org.springframework.data.domain.Pageable;
 
 class PlaceSearchCountQueryServiceTest {
 
-    private SearchCounter searchCounter;
-    private PlaceSearchCountRepository placeSearchCountRepository;
-    private PlaceSearchCountQueryService placeSearchCountQueryService;
+  private SearchCounter searchCounter;
+  private PlaceSearchCountRepository placeSearchCountRepository;
+  private PlaceSearchCountQueryService placeSearchCountQueryService;
 
-    @BeforeEach
-    void setUp() {
-        placeSearchCountRepository = mock(PlaceSearchCountRepository.class);
-        searchCounter = mock(SearchCounter.class);
+  @BeforeEach
+  void setUp() {
+    placeSearchCountRepository = mock(PlaceSearchCountRepository.class);
+    searchCounter = mock(SearchCounter.class);
 
-        placeSearchCountQueryService =
-                new PlaceSearchCountQueryService(placeSearchCountRepository, searchCounter);
-    }
+    placeSearchCountQueryService =
+        new PlaceSearchCountQueryService(placeSearchCountRepository, searchCounter);
+  }
 
-    @Test
-    void test_count_accuracy() {
-        List<SearchCount> searchCounts = TestDataUtil.createSearchCounts(5);
-        SearchCount firstSearchAdder = new SearchCount(searchCounts.get(0).getQuery(), 10L);
+  @Test
+  void test_count_accuracy() {
+    List<SearchCount> searchCounts = TestDataUtil.createSearchCounts(5);
+    SearchCount firstSearchAdder = new SearchCount(searchCounts.get(0).getQuery(), 10L);
 
-        given(placeSearchCountRepository.findAll(any(Pageable.class)))
-                .willReturn(
-                        new PageImpl<>(
-                                JsonUtil.convertAs(
-                                        searchCounts, new TypeReference<List<SearchCount>>() {})));
-        given(searchCounter.getCounterMapSnapshot())
-                .willReturn(
-                        Collections.singletonMap(
-                                firstSearchAdder.getQuery(), firstSearchAdder.getCount()));
+    given(placeSearchCountRepository.findAll(any(Pageable.class)))
+        .willReturn(
+            new PageImpl<>(
+                JsonUtil.convertAs(searchCounts, new TypeReference<List<SearchCount>>() {})));
+    given(searchCounter.getCounterMapSnapshot())
+        .willReturn(
+            Collections.singletonMap(firstSearchAdder.getQuery(), firstSearchAdder.getCount()));
 
-        List<SearchCount> finalSearchCounts = placeSearchCountQueryService.getTopSearchedCounts();
+    List<SearchCount> finalSearchCounts = placeSearchCountQueryService.getTopSearchedCounts();
 
-        assertEquals(searchCounts.get(0).getQuery(), finalSearchCounts.get(0).getQuery());
-        assertNotEquals(searchCounts.get(0).getCount(), finalSearchCounts.get(0).getCount());
-    }
+    assertEquals(searchCounts.get(0).getQuery(), finalSearchCounts.get(0).getQuery());
+    assertNotEquals(searchCounts.get(0).getCount(), finalSearchCounts.get(0).getCount());
+  }
 }

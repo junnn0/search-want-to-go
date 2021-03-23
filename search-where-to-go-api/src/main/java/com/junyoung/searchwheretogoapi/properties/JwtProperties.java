@@ -14,11 +14,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "spring.jwt")
 @Component
 public class JwtProperties {
-    private String secretKey;
-    private int sessionTime;
+  private String secretKey;
+  private int sessionTime;
 
-    public void setSecretKey(String secretKey) {
-        this.secretKey =
-                Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
-    }
+  public void setSecretKey(String secretKey) {
+    this.secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
+  }
 }

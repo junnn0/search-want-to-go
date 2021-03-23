@@ -11,8 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlaceData implements Serializable {
-    private String name;
-    private String address;
-    private String phone;
-    private String link;
+  private String name;
+  private String address;
+  private String phone;
+  private String link;
 }

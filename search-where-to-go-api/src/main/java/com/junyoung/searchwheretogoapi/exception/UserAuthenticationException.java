@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 public class UserAuthenticationException extends RuntimeException {
-    private final ResponseType responseType;
+  private final ResponseType responseType;
 
-    public UserAuthenticationException(ResponseType responseType) {
-        super(responseType.getMessage());
-        this.responseType = responseType;
-    }
+  public UserAuthenticationException(ResponseType responseType) {
+    super(responseType.getMessage());
+    this.responseType = responseType;
+  }
 }

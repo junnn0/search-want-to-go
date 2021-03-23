@@ -22,35 +22,36 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 class PlaceSearchHistoryControllerTest {
 
-    @Autowired private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @MockBean private PlaceSearchHistoryQueryService placeSearchHistoryQueryService;
+  @MockBean private PlaceSearchHistoryQueryService placeSearchHistoryQueryService;
 
-    @BeforeEach
-    void setUp() {
-        given(placeSearchHistoryQueryService.getPlaceSearchHistories(any(), any()))
-                .willReturn(TestDataUtil.createPlaceSearchHistories(10));
-        SecurityContextHolder.getContext().setAuthentication(TestDataUtil.createAuthToken());
-    }
+  @BeforeEach
+  void setUp() {
+    given(placeSearchHistoryQueryService.getPlaceSearchHistories(any(), any()))
+        .willReturn(TestDataUtil.createPlaceSearchHistories(10));
+    SecurityContextHolder.getContext().setAuthentication(TestDataUtil.createAuthToken());
+  }
 
-    @Test
-    void test_get_place_search_histories_success() throws Exception {
-        mockMvc.perform(get("/v1.0/places/histories"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.header.isSuccessful").value(true))
-                .andExpect(jsonPath("$.header.resultMessage").value("SUCCESS"))
-                .andExpect(jsonPath("$.body").isArray());
-    }
+  @Test
+  void test_get_place_search_histories_success() throws Exception {
+    mockMvc
+        .perform(get("/v1.0/places/histories"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.header.isSuccessful").value(true))
+        .andExpect(jsonPath("$.header.resultMessage").value("SUCCESS"))
+        .andExpect(jsonPath("$.body").isArray());
+  }
 
-    @Test
-    void test_get_place_search_histories_empty_user() throws Exception {
-        SecurityContextHolder.getContext().setAuthentication(null);
+  @Test
+  void test_get_place_search_histories_empty_user() throws Exception {
+    SecurityContextHolder.getContext().setAuthentication(null);
 
-        mockMvc.perform(get("/v1.0/places/histories"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.header.isSuccessful").value(false))
-                .andExpect(
-                        jsonPath("$.header.resultMessage")
-                                .value(ResponseType.NOT_LOGIN_USER.getMessage()));
-    }
+    mockMvc
+        .perform(get("/v1.0/places/histories"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.header.isSuccessful").value(false))
+        .andExpect(
+            jsonPath("$.header.resultMessage").value(ResponseType.NOT_LOGIN_USER.getMessage()));
+  }
 }

@@ -18,31 +18,31 @@ import org.springframework.util.CollectionUtils;
 
 class PlaceSearchHistoryQueryServiceTest {
 
-    private PlaceSearchService placeSearchService;
+  private PlaceSearchService placeSearchService;
 
-    @BeforeEach
-    void setUp() {
-        // given
-        PlaceApiClient placeApiClient = mock(PlaceApiClient.class);
+  @BeforeEach
+  void setUp() {
+    // given
+    PlaceApiClient placeApiClient = mock(PlaceApiClient.class);
 
-        given(placeApiClient.getPlaces(anyString()))
-                .willAnswer(invocation -> TestDataUtil.createPlaces());
+    given(placeApiClient.getPlaces(anyString()))
+        .willAnswer(invocation -> TestDataUtil.createPlaces());
 
-        placeSearchService = new PlaceSearchService(Collections.singletonList(placeApiClient));
+    placeSearchService = new PlaceSearchService(Collections.singletonList(placeApiClient));
+  }
+
+  @Test
+  void testGetSortedPlaces() {
+    // when
+    List<PlaceData> places = placeSearchService.getPlaces("query");
+
+    // then
+    assertFalse(CollectionUtils.isEmpty(places));
+    for (PlaceData placeData : places.subList(0, 3)) {
+      assertTrue(placeData.getName().contains("dup"));
     }
-
-    @Test
-    void testGetSortedPlaces() {
-        // when
-        List<PlaceData> places = placeSearchService.getPlaces("query");
-
-        // then
-        assertFalse(CollectionUtils.isEmpty(places));
-        for (PlaceData placeData : places.subList(0, 3)) {
-            assertTrue(placeData.getName().contains("dup"));
-        }
-        for (PlaceData placeData : places.subList(3, places.size())) {
-            assertTrue(placeData.getName().contains("unique"));
-        }
+    for (PlaceData placeData : places.subList(3, places.size())) {
+      assertTrue(placeData.getName().contains("unique"));
     }
+  }
 }

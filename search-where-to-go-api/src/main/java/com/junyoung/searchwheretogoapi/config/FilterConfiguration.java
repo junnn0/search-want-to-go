@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FilterConfiguration {
-    @Bean
-    public JwtTokenFilter jwtTokenFilter(UserRepository userRepository, JwtService jwtService) {
-        return new JwtTokenFilter(userRepository, jwtService);
-    }
+  @Bean
+  public JwtTokenFilter jwtTokenFilter(UserRepository userRepository, JwtService jwtService) {
+    return new JwtTokenFilter(userRepository, jwtService);
+  }
 }

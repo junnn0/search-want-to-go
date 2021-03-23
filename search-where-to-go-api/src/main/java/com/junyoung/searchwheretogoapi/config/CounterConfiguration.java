@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CounterConfiguration {
 
-    @ConditionalOnMissingBean(SearchCounter.class)
-    @Bean
-    public DefaultMapSearchCounter searchCounter() {
-        return new DefaultMapSearchCounter();
-    }
+  @ConditionalOnMissingBean(SearchCounter.class)
+  @Bean
+  public DefaultMapSearchCounter searchCounter() {
+    return new DefaultMapSearchCounter();
+  }
 }

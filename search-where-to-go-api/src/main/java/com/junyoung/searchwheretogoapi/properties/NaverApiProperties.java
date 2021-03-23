@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "openapi.naver")
 @Component
 public class NaverApiProperties {
-    private String baseUrl;
-    private String clientId;
-    private String clientSecret;
-    private Map<String, String> api;
+  private String baseUrl;
+  private String clientId;
+  private String clientSecret;
+  private Map<String, String> api;
 }

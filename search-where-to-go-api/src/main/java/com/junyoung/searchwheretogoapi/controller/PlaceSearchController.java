@@ -20,15 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1.0")
 public class PlaceSearchController {
 
-    private final PlaceSearchService placeSearchService;
-    private final PlaceSearchHistoryService placeSearchHistoryService;
+  private final PlaceSearchService placeSearchService;
+  private final PlaceSearchHistoryService placeSearchHistoryService;
 
-    @GetMapping("/places")
-    public ApiResponse<List<PlaceData>> searchPlaces(
-            @AuthenticationPrincipal User user, @Valid QueryParam queryParam) {
-        List<PlaceData> placeData = placeSearchService.getPlaces(queryParam.getQuery());
-        placeSearchHistoryService.save(
-                new PlaceSearchHistory(queryParam.getQuery(), user.getUserId()));
-        return ApiResponse.success(placeData);
-    }
+  @GetMapping("/places")
+  public ApiResponse<List<PlaceData>> searchPlaces(
+      @AuthenticationPrincipal User user, @Valid QueryParam queryParam) {
+    List<PlaceData> placeData = placeSearchService.getPlaces(queryParam.getQuery());
+    placeSearchHistoryService.save(new PlaceSearchHistory(queryParam.getQuery(), user.getUserId()));
+    return ApiResponse.success(placeData);
+  }
 }

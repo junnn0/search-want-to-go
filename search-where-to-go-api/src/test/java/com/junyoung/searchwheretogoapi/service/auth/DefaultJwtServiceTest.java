@@ -15,20 +15,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class DefaultJwtServiceTest {
 
-    @Autowired private DefaultJwtService defaultJwtService;
+  @Autowired private DefaultJwtService defaultJwtService;
 
-    @Test
-    void test_user_to_token() {
-        assertNotNull(defaultJwtService.toToken(TestDataUtil.createUser()));
-    }
+  @Test
+  void test_user_to_token() {
+    assertNotNull(defaultJwtService.toToken(TestDataUtil.createUser()));
+  }
 
-    @Test
-    void test_get_sub_from_token_success() {
-        User user = TestDataUtil.createUser();
-        String token = defaultJwtService.toToken(user);
+  @Test
+  void test_get_sub_from_token_success() {
+    User user = TestDataUtil.createUser();
+    String token = defaultJwtService.toToken(user);
 
-        Optional<String> userIdOpt = defaultJwtService.getUserIdFromToken(token);
-        assertTrue(userIdOpt.isPresent());
-        assertEquals(user.getUserId(), userIdOpt.get());
-    }
+    Optional<String> userIdOpt = defaultJwtService.getUserIdFromToken(token);
+    assertTrue(userIdOpt.isPresent());
+    assertEquals(user.getUserId(), userIdOpt.get());
+  }
 }

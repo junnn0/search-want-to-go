@@ -20,36 +20,36 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 @SpringBootTest
 class CountUpdateHandlerTest {
 
-    @MockBean private SearchCounter searchCounter;
+  @MockBean private SearchCounter searchCounter;
 
-    @MockBean private PlaceSearchCountRepository placeSearchCountRepository;
+  @MockBean private PlaceSearchCountRepository placeSearchCountRepository;
 
-    @Autowired private CountUpdateHandler countUpdateHandler;
+  @Autowired private CountUpdateHandler countUpdateHandler;
 
-    @Test
-    void test_polling_success() {
-        given(searchCounter.getSearchedCounts()).willReturn(TestDataUtil.createSearchCounts(3));
-        given(placeSearchCountRepository.findById(anyString()))
-                .willReturn(Optional.of(TestDataUtil.createSearchCount()));
+  @Test
+  void test_polling_success() {
+    given(searchCounter.getSearchedCounts()).willReturn(TestDataUtil.createSearchCounts(3));
+    given(placeSearchCountRepository.findById(anyString()))
+        .willReturn(Optional.of(TestDataUtil.createSearchCount()));
 
-        // when
-        countUpdateHandler.poll();
+    // when
+    countUpdateHandler.poll();
 
-        // then
-        then(placeSearchCountRepository).should(times(3)).findById(anyString());
-        then(placeSearchCountRepository).should(times(3)).save(any());
-    }
+    // then
+    then(placeSearchCountRepository).should(times(3)).findById(anyString());
+    then(placeSearchCountRepository).should(times(3)).save(any());
+  }
 
-    @Test
-    void test_polling_nothing() {
-        // given
-        given(searchCounter.getSearchedCounts()).willReturn(Collections.emptyList());
+  @Test
+  void test_polling_nothing() {
+    // given
+    given(searchCounter.getSearchedCounts()).willReturn(Collections.emptyList());
 
-        // when
-        countUpdateHandler.poll();
+    // when
+    countUpdateHandler.poll();
 
-        // then
-        then(placeSearchCountRepository).should(never()).findById(anyString());
-        then(placeSearchCountRepository).should(never()).save(any());
-    }
+    // then
+    then(placeSearchCountRepository).should(never()).findById(anyString());
+    then(placeSearchCountRepository).should(never()).save(any());
+  }
 }

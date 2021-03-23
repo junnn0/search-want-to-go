@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class PlaceSearchHistoryQueryService {
-    private final PlaceSearchHistoryQueryRepository historyQueryRepository;
+  private final PlaceSearchHistoryQueryRepository historyQueryRepository;
 
-    public List<PlaceSearchHistory> getPlaceSearchHistories(User user, PageParam pageParam) {
-        log.debug("> getPlaceSearchHistories(user={}, pageParam={})", user, pageParam);
-        return historyQueryRepository.findByUserIdOrderByHistoryIdDesc(
-                user.getUserId(), PageRequest.of(pageParam.getPageNum(), pageParam.getPageSize()));
-    }
+  public List<PlaceSearchHistory> getPlaceSearchHistories(User user, PageParam pageParam) {
+    log.debug("> getPlaceSearchHistories(user={}, pageParam={})", user, pageParam);
+    return historyQueryRepository.findByUserIdOrderByHistoryIdDesc(
+        user.getUserId(), PageRequest.of(pageParam.getPageNum(), pageParam.getPageSize()));
+  }
 }

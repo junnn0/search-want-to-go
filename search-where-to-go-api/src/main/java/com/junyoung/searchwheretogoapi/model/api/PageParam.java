@@ -10,6 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PageParam {
-    @PositiveOrZero private int pageNum = 0;
-    @Positive private int pageSize = 10;
+  @PositiveOrZero private int pageNum = 0;
+  @Positive private int pageSize = 10;
 }

@@ -25,52 +25,51 @@ import org.springframework.web.util.UriComponentsBuilder;
 @ConditionalOnProperty(prefix = "openapi.naver", name = "base-url")
 @Component
 public class NaverPlaceApiClient extends RetryablePlaceApiClient {
-    private static final String AUTH_HEADER_KEY_ID = "X-Naver-Client-Id";
-    private static final String AUTH_HEADER_KEY_SECRET = "X-Naver-Client-Secret";
+  private static final String AUTH_HEADER_KEY_ID = "X-Naver-Client-Id";
+  private static final String AUTH_HEADER_KEY_SECRET = "X-Naver-Client-Secret";
 
-    private final NaverApiProperties properties;
-    private final RestTemplate restTemplate;
+  private final NaverApiProperties properties;
+  private final RestTemplate restTemplate;
 
-    @Override
-    @Retryable(
-            value = ExternalApiException.class,
-            recover = FALLBACK_METHOD_NAME,
-            backoff = @Backoff(delay = 2000L))
-    public List<? extends Place> getPlaces(String query) {
-        log.debug("> getPlaces(query={})", query);
+  @Override
+  @Retryable(
+      value = ExternalApiException.class,
+      recover = FALLBACK_METHOD_NAME,
+      backoff = @Backoff(delay = 2000L))
+  public List<? extends Place> getPlaces(String query) {
+    log.debug("> getPlaces(query={})", query);
 
-        String uri =
-                properties.getBaseUrl()
-                        + UriComponentsBuilder.fromUriString(properties.getApi().get("places"))
-                                .buildAndExpand(query);
+    String uri =
+        properties.getBaseUrl()
+            + UriComponentsBuilder.fromUriString(properties.getApi().get("places"))
+                .buildAndExpand(query);
 
-        SearchListResponse<NaverPlace> response;
-        try {
-            response =
-                    restTemplate
-                            .exchange(
-                                    uri,
-                                    HttpMethod.GET,
-                                    new HttpEntity<>(makeAuthHeaders()),
-                                    new ParameterizedTypeReference<
-                                            SearchListResponse<NaverPlace>>() {})
-                            .getBody();
-        } catch (Exception ex) {
-            throw new ExternalApiException(ex);
-        }
-
-        if (response != null) {
-            return response.get();
-        } else {
-            log.warn("> external api(Naver) returns empty response.");
-            return Collections.emptyList();
-        }
+    SearchListResponse<NaverPlace> response;
+    try {
+      response =
+          restTemplate
+              .exchange(
+                  uri,
+                  HttpMethod.GET,
+                  new HttpEntity<>(makeAuthHeaders()),
+                  new ParameterizedTypeReference<SearchListResponse<NaverPlace>>() {})
+              .getBody();
+    } catch (Exception ex) {
+      throw new ExternalApiException(ex);
     }
 
-    private HttpHeaders makeAuthHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(AUTH_HEADER_KEY_ID, properties.getClientId());
-        headers.set(AUTH_HEADER_KEY_SECRET, properties.getClientSecret());
-        return headers;
+    if (response != null) {
+      return response.get();
+    } else {
+      log.warn("> external api(Naver) returns empty response.");
+      return Collections.emptyList();
     }
+  }
+
+  private HttpHeaders makeAuthHeaders() {
+    HttpHeaders headers = new HttpHeaders();
+    headers.set(AUTH_HEADER_KEY_ID, properties.getClientId());
+    headers.set(AUTH_HEADER_KEY_SECRET, properties.getClientSecret());
+    return headers;
+  }
 }
