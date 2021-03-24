@@ -3,7 +3,7 @@ spring:
     active: test
   jwt:
     secret-key: secretkey
-    session-time: 86400
+    session-second: 1800
   datasource:
     url: jdbc:h2:mem:search-where-to-go
     driver-class-name: org.h2.Driver

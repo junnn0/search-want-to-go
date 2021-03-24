@@ -1,18 +1,31 @@
 <template>
-  <div class="login">
-    <h1>Login.vue</h1>
-    <div>
-      <label for="username">{{ $messages['common.username'] }}: </label>
-      <input id="username" type="text" v-model="username" @keydown.enter="login"/>
-    </div>
-    <div>
-      <label for="password">{{ $messages['common.password'] }}: </label>
-      <input id="password" type="password" v-model="password" @keydown.enter="login"/>
-    </div>
-    <div>
-      <button @click="login">Login</button>
-    </div>
-  </div>
+  <b-container class="login mt-xl-5" fluid="true">
+    <b-row align-h="center" class="mt-lg-3">
+      <b-col cols="3">
+        <label style="font-size: 25px">{{ $messages['common.username'] }}</label>
+      </b-col>
+    </b-row>
+    <b-row align-h="center">
+      <b-col cols="3">
+        <b-form-input size="lg" type="text" :autofocus="true" v-model="username" @keydown.enter="login" placeholder="Enter your username"/>
+      </b-col>
+    </b-row>
+    <b-row align-h="center" class="mt-lg-3">
+      <b-col cols="3">
+        <label style="font-size: 25px">{{ $messages['common.password'] }}</label>
+      </b-col>
+    </b-row>
+    <b-row align-h="center">
+      <b-col cols="3">
+        <b-form-input size="lg" type="password" v-model="password" @keydown.enter="login" placeholder="Enter your password"/>
+      </b-col>
+    </b-row>
+    <b-row align-h="center" class="mt-xl-4">
+      <b-col cols="3">
+        <b-button variant="outline-success" @click="login">{{ $messages['common.login'] }}</b-button>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>

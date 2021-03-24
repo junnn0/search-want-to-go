@@ -1,5 +1,6 @@
 package com.junyoung.searchwheretogoapi.service.place.search;
 
+import com.junyoung.searchwheretogoapi.model.api.ListResponse;
 import com.junyoung.searchwheretogoapi.model.api.PageParam;
 import com.junyoung.searchwheretogoapi.model.data.PlaceSearchHistory;
 import com.junyoung.searchwheretogoapi.model.data.User;
@@ -16,9 +17,11 @@ import org.springframework.stereotype.Service;
 public class PlaceSearchHistoryQueryService {
   private final PlaceSearchHistoryQueryRepository historyQueryRepository;
 
-  public List<PlaceSearchHistory> getPlaceSearchHistories(User user, PageParam pageParam) {
+  public ListResponse<PlaceSearchHistory> getPlaceSearchHistories(User user, PageParam pageParam) {
     log.debug("> getPlaceSearchHistories(user={}, pageParam={})", user, pageParam);
-    return historyQueryRepository.findByUserIdOrderByHistoryIdDesc(
-        user.getUserId(), PageRequest.of(pageParam.getPageNum(), pageParam.getPageSize()));
+    List<PlaceSearchHistory> searchHistories = historyQueryRepository.findByUserIdOrderByHistoryIdDesc(
+        user.getUserId(), PageRequest.of(pageParam.getPageNum() - 1, pageParam.getPageSize()));
+    int totalCount = historyQueryRepository.countByUserId(user.getUserId());
+    return new ListResponse<>(searchHistories, totalCount);
   }
 }

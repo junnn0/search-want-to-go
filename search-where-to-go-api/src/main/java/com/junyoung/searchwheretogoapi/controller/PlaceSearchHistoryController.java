@@ -1,6 +1,7 @@
 package com.junyoung.searchwheretogoapi.controller;
 
 import com.junyoung.searchwheretogoapi.exception.UserAuthenticationException;
+import com.junyoung.searchwheretogoapi.model.api.ListResponse;
 import com.junyoung.searchwheretogoapi.model.api.PageParam;
 import com.junyoung.searchwheretogoapi.model.common.ApiResponse;
 import com.junyoung.searchwheretogoapi.model.common.ResponseType;
@@ -24,7 +25,7 @@ public class PlaceSearchHistoryController {
   private final PlaceSearchHistoryQueryService placeSearchHistoryQueryService;
 
   @GetMapping("/places/histories")
-  public ApiResponse<List<PlaceSearchHistory>> getPlaceSearchHistories(
+  public ApiResponse<ListResponse<PlaceSearchHistory>> getPlaceSearchHistories(
       @AuthenticationPrincipal User user, @Valid PageParam pageParam) {
     log.debug("> getPlaceSearchHistories(user={}, pageParam={})", user, pageParam);
     if (user == null) {
