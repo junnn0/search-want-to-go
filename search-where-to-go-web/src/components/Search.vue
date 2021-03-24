@@ -2,7 +2,7 @@
   <b-container id="search">
     <b-row>
       <b-input-group :prepend="this.$messages['common.search.word']" class="mt-3">
-        <b-form-input v-model="searchWord" @keydown.enter="search" :autofocus="true"></b-form-input>
+        <b-form-input v-model="searchWord" @keypress.enter="search" :autofocus="true"></b-form-input>
         <b-input-group-append>
           <b-button variant="outline-success" @click="search">{{ $messages['common.search'] }}</b-button>
         </b-input-group-append>
