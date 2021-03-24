@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlaceSearchHistoryQueryRepository
     extends JpaRepository<PlaceSearchHistory, String> {
+  int countByUserId(String userId);
+  
   List<PlaceSearchHistory> findByUserIdOrderByHistoryIdDesc(String userId, Pageable pageable);
 }

@@ -1,10 +1,18 @@
 <template>
-  <div class="home">
-    <h1>Favorite.vue</h1>
-    <div>
-      <span style="display: block" v-for="favoriteQuery in favoriteQueries" v-bind:key="favoriteQuery.query">{{ favoriteQuery }}</span>
-    </div>
-  </div>
+  <b-container id="search-favorite">
+    <h4>{{ $messages['common.search.favorite'] }}</h4>
+    <b-row align-h="center">
+      <b-list-group class="w-75">
+        <b-list-group-item v-for="(favoriteQuery, idx) in favoriteQueries" v-bind:key="idx">
+          <b-row>
+            <b-col cols="2">{{ idx + 1 }}</b-col>
+            <b-col cols="6">{{ favoriteQuery.query }}</b-col>
+            <b-col cols="4">{{ `${favoriteQuery.count} ${$messages['common.times']}` }}</b-col>
+          </b-row>
+        </b-list-group-item>
+      </b-list-group>
+    </b-row>
+  </b-container>
 </template>
 
 <script>

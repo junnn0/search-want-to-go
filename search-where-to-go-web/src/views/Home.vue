@@ -1,8 +1,12 @@
 <template>
-  <div class="home">
-    <h1>Home.vue</h1>
-    <login/>
-  </div>
+  <b-container class="mt-lg-5" fluid="true">
+    <b-row>
+      <b-col align-self="center">
+        <h1>{{ $messages['common.title'] }}</h1>
+        <login/>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>

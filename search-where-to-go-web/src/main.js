@@ -2,14 +2,20 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import BootstrapVue from 'bootstrap-vue'
 import ApiService from '@/common/api.service'
 import TokenService from '@/common/token.service'
 import {loadMessages} from './common/i18n'
-import StoreConstant from "@/store/constant";
+import StoreConstant from '@/store/constant'
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.config.productionTip = false
 
 Vue.prototype.$messages = loadMessages()
+
+Vue.use(BootstrapVue)
 
 ApiService.init()
 

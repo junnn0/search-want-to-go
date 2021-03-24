@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.junyoung.searchwheretogoapi.model.api.ListResponse;
 import com.junyoung.searchwheretogoapi.model.common.ResponseType;
 import com.junyoung.searchwheretogoapi.service.place.search.PlaceSearchHistoryQueryService;
 import com.junyoung.searchwheretogoapi.util.TestDataUtil;
@@ -29,7 +30,7 @@ class PlaceSearchHistoryControllerTest {
   @BeforeEach
   void setUp() {
     given(placeSearchHistoryQueryService.getPlaceSearchHistories(any(), any()))
-        .willReturn(TestDataUtil.createPlaceSearchHistories(10));
+        .willReturn(new ListResponse<>(TestDataUtil.createPlaceSearchHistories(10), 10));
     SecurityContextHolder.getContext().setAuthentication(TestDataUtil.createAuthToken());
   }
 
@@ -40,7 +41,8 @@ class PlaceSearchHistoryControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.header.isSuccessful").value(true))
         .andExpect(jsonPath("$.header.resultMessage").value("SUCCESS"))
-        .andExpect(jsonPath("$.body").isArray());
+        .andExpect(jsonPath("$.body.data").isArray())
+        .andExpect(jsonPath("$.body.totalCount").value(10));
   }
 
   @Test
