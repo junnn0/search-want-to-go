@@ -2,6 +2,7 @@ package com.junyoung.searchwheretogoapi.model.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.junyoung.searchwheretogoapi.constants.SourceType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,6 @@ public class KakaoPlace implements Place {
 
   @Override
   public PlaceData toPlaceData() {
-    return new PlaceData(placeName, roadAddressName, phone, placeUrl);
+    return new PlaceData(placeName, roadAddressName, phone, placeUrl, SourceType.KAKAO);
   }
 }

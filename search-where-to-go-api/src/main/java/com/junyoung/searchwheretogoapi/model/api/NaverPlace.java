@@ -1,6 +1,7 @@
 package com.junyoung.searchwheretogoapi.model.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.junyoung.searchwheretogoapi.constants.SourceType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,6 @@ public class NaverPlace implements Place {
 
   @Override
   public PlaceData toPlaceData() {
-    return new PlaceData(title, roadAddress, telephone, link);
+    return new PlaceData(title, roadAddress, telephone, link, SourceType.NAVER);
   }
 }
