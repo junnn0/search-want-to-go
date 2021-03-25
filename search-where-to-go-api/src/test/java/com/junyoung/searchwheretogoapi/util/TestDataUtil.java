@@ -3,11 +3,11 @@ package com.junyoung.searchwheretogoapi.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+import com.junyoung.searchwheretogoapi.constants.SourceType;
 import com.junyoung.searchwheretogoapi.model.api.KakaoPlace;
 import com.junyoung.searchwheretogoapi.model.api.NaverPlace;
 import com.junyoung.searchwheretogoapi.model.api.Place;
 import com.junyoung.searchwheretogoapi.model.api.PlaceData;
-import com.junyoung.searchwheretogoapi.model.api.SearchListResponse;
 import com.junyoung.searchwheretogoapi.model.data.PlaceSearchHistory;
 import com.junyoung.searchwheretogoapi.model.data.SearchCount;
 import com.junyoung.searchwheretogoapi.model.data.User;
@@ -34,15 +34,15 @@ public class TestDataUtil {
   public static List<? extends Place> createPlaces() {
     return Arrays.asList(
         createKakaoPlace("dup1"),
-        createKakaoPlace("unique1"),
-        createKakaoPlace("dup3"),
-        createKakaoPlace("dup5"),
-        createKakaoPlace("unique2"),
-        createKakaoPlace("unique3"),
-        createNaverPlace("dup1"),
-        createNaverPlace("dup3"),
         createNaverPlace("unique4"),
+        createKakaoPlace("unique1"),
+        createNaverPlace("dup1"),
+        createKakaoPlace("dup3"),
         createNaverPlace("unique5"),
+        createKakaoPlace("dup5"),
+        createKakaoPlace("unique3"),
+        createNaverPlace("dup3"),
+        createKakaoPlace("unique2"),
         createNaverPlace("dup5"));
   }
 
@@ -56,12 +56,6 @@ public class TestDataUtil {
     NaverPlace naverPlace = new NaverPlace();
     naverPlace.setTitle(name);
     return naverPlace;
-  }
-
-  public static SearchListResponse<KakaoPlace> createKakaoPlaceResponse() {
-    SearchListResponse<KakaoPlace> response = new SearchListResponse<>();
-    response.setData(createKakaoPlaces(10));
-    return response;
   }
 
   public static List<KakaoPlace> createKakaoPlaces(int size) {
@@ -96,7 +90,8 @@ public class TestDataUtil {
         faker.name().name(),
         faker.address().fullAddress(),
         faker.phoneNumber().cellPhone(),
-        faker.internet().url());
+        faker.internet().url(),
+        faker.random().nextInt(10) % 2 == 0 ? SourceType.KAKAO : SourceType.NAVER);
   }
 
   private static <T> List<T> createList(int size, Supplier<T> elementSupplier) {

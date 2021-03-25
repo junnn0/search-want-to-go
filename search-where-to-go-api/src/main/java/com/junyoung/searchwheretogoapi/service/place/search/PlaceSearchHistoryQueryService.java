@@ -19,8 +19,9 @@ public class PlaceSearchHistoryQueryService {
 
   public ListResponse<PlaceSearchHistory> getPlaceSearchHistories(User user, PageParam pageParam) {
     log.debug("> getPlaceSearchHistories(user={}, pageParam={})", user, pageParam);
-    List<PlaceSearchHistory> searchHistories = historyQueryRepository.findByUserIdOrderByHistoryIdDesc(
-        user.getUserId(), PageRequest.of(pageParam.getPageNum() - 1, pageParam.getPageSize()));
+    List<PlaceSearchHistory> searchHistories =
+        historyQueryRepository.findByUserIdOrderByHistoryIdDesc(
+            user.getUserId(), PageRequest.of(pageParam.getPageNum() - 1, pageParam.getPageSize()));
     int totalCount = historyQueryRepository.countByUserId(user.getUserId());
     return new ListResponse<>(searchHistories, totalCount);
   }
