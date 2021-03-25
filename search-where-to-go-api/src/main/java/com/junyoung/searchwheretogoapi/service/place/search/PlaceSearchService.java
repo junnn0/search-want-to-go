@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -55,17 +54,18 @@ public class PlaceSearchService {
           }
         }
 
-        Stream<PlaceData> duplicatedSortedByFrequency = frequencyCounter.entrySet().stream()
-            .filter(entry -> duplicatedNameMap.containsKey(entry.getKey()))
-            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-            .map(entry -> duplicatedNameMap.get(entry.getKey()));
+        Stream<PlaceData> duplicatedSortedByFrequency =
+            frequencyCounter.entrySet().stream()
+                .filter(entry -> duplicatedNameMap.containsKey(entry.getKey()))
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .map(entry -> duplicatedNameMap.get(entry.getKey()));
 
-        Stream<PlaceData> uniqueSortedBySource = uniqueNameMap.entrySet()
-                .stream()
+        Stream<PlaceData> uniqueSortedBySource =
+            uniqueNameMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(PlaceData::compareTo))
                 .map(Map.Entry::getValue);
 
         return Stream.concat(duplicatedSortedByFrequency, uniqueSortedBySource)
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
       };
 }

@@ -8,7 +8,6 @@ import com.junyoung.searchwheretogoapi.model.api.KakaoPlace;
 import com.junyoung.searchwheretogoapi.model.api.NaverPlace;
 import com.junyoung.searchwheretogoapi.model.api.Place;
 import com.junyoung.searchwheretogoapi.model.api.PlaceData;
-import com.junyoung.searchwheretogoapi.model.api.SearchListResponse;
 import com.junyoung.searchwheretogoapi.model.data.PlaceSearchHistory;
 import com.junyoung.searchwheretogoapi.model.data.SearchCount;
 import com.junyoung.searchwheretogoapi.model.data.User;

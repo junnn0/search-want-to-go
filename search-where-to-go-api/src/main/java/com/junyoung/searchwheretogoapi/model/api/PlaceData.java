@@ -1,9 +1,7 @@
 package com.junyoung.searchwheretogoapi.model.api;
 
-import java.io.Serializable;
-import java.util.Comparator;
-
 import com.junyoung.searchwheretogoapi.constants.SourceType;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

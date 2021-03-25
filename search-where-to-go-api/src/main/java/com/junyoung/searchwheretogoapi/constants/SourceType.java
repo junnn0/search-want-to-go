@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum SourceType {
-    KAKAO(1), NAVER(2);
+  KAKAO(1),
+  NAVER(2);
 
-    private final Integer order;
+  private final Integer order;
 }

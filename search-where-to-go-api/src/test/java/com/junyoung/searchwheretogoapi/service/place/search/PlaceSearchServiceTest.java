@@ -10,10 +10,7 @@ import static org.mockito.Mockito.mock;
 import com.junyoung.searchwheretogoapi.client.PlaceApiClient;
 import com.junyoung.searchwheretogoapi.constants.SourceType;
 import com.junyoung.searchwheretogoapi.model.api.PlaceData;
-import com.junyoung.searchwheretogoapi.service.place.search.PlaceSearchService;
 import com.junyoung.searchwheretogoapi.util.TestDataUtil;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
