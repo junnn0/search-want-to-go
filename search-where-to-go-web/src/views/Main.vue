@@ -1,6 +1,5 @@
 <template>
-  <b-container class="home">
-    <h1>Main.vue</h1>
+  <b-container class="home mt-5">
     <search/>
   </b-container>
 </template>
