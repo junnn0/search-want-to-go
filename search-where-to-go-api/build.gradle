@@ -1,0 +1,53 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'com.diffplug.spotless' version '5.11.0'
+}
+
+group = 'com.junyoung'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+spotless {
+    java {
+        googleJavaFormat('1.8')
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+//spring-boot-starters
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+//external libraries
+    implementation 'org.springframework.retry:spring-retry:1.3.1'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'de.rtner:PBKDF2:1.1.4'
+    implementation 'net.sf.ehcache:ehcache:2.10.6'
+//dev supports
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.h2database:h2'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+//test supports
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'com.github.javafaker:javafaker:1.0.2'
+}
+
+test {
+    useJUnitPlatform()
+}

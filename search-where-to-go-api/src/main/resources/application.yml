@@ -1,0 +1,45 @@
+spring:
+  profiles:
+    active: local
+  jwt:
+    secret-key: secretkey
+    session-second: 1800
+  datasource:
+    url: jdbc:h2:mem:search-where-to-go
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+
+allowed:
+  origin: http://localhost:8081
+
+count:
+  update:
+    interval: 500
+
+openapi:
+  kakao:
+    base-url: https://dapi.kakao.com
+    api-key: 33bb2e315b4d38c5d9064467fb7fd588
+    api:
+      places: /v2/local/search/keyword.json?size=5&query={query}
+  naver:
+    base-url: https://openapi.naver.com
+    client-id: wc06jc76Yu6F_i17eWKc
+    client-secret: H4FUKuZIHy
+    api:
+      places: /v1/search/local.json?display=5&query={query}
+
+---
+
+spring.config.activate.on-profile: dev
+
+---
+
+spring.config.activate.on-profile: prod
